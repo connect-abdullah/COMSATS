@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 3 – Measures of Central Tendency</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f1a10;
+    --ink-light: #2e4530;
+    --ink-muted: #6a8570;
+    --paper: #f5faf5;
+    --paper-warm: #edf5ee;
+    --paper-card: #ffffff;
+    --accent: #1a7a3c;
+    --accent-light: #9fd4b0;
+    --accent-pale: #e6f5ec;
+    --teal: #0a6b7a;
+    --teal-light: #9fd0d8;
+    --teal-pale: #e5f4f6;
+    --gold: #8a6200;
+    --gold-light: #f0d898;
+    --gold-pale: #fdf8e0;
+    --purple: #5a3a9a;
+    --purple-light: #c8b8f0;
+    --purple-pale: #f0eafc;
+    --red: #a82020;
+    --red-pale: #fceaea;
+    --red-light: #f0aaaa;
+    --border: #c8deca;
+    --shadow: rgba(15,60,20,0.07);
+  }
+
+  body { font-family: 'Source Serif 4', Georgia, serif; background: var(--paper); color: var(--ink); font-size: 16px; line-height: 1.8; padding: 0; }
+
+  /* COVER */
+  .cover { background: var(--ink); color: var(--paper); padding: 60px 48px 48px; position: relative; overflow: hidden; }
+  .cover::before { content: ''; position: absolute; top: -80px; right: -80px; width: 380px; height: 380px; border-radius: 50%; background: var(--accent); opacity: 0.15; }
+  .cover::after { content: ''; position: absolute; bottom: -50px; left: -50px; width: 250px; height: 250px; border-radius: 50%; background: var(--teal); opacity: 0.1; }
+  .cover-badge { display: inline-block; border: 1.5px solid var(--accent-light); color: var(--accent-light); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; border-radius: 2px; margin-bottom: 28px; }
+  .cover h1 { font-family: 'Playfair Display', serif; font-size: clamp(30px, 5vw, 50px); font-weight: 900; line-height: 1.1; margin-bottom: 16px; color: #fff; }
+  .cover-sub { font-size: 17px; color: #b8c8ba; font-style: italic; margin-bottom: 36px; font-weight: 300; }
+  .cover-meta { display: flex; gap: 32px; flex-wrap: wrap; }
+  .cover-meta-item { font-size: 13px; color: #6a8070; text-transform: uppercase; letter-spacing: 1px; }
+  .cover-meta-item strong { display: block; font-size: 15px; color: #c8d8ca; font-weight: 600; text-transform: none; letter-spacing: 0; margin-top: 2px; }
+
+  /* TOC */
+  .toc { background: var(--paper-warm); border-bottom: 1px solid var(--border); padding: 32px 48px; }
+  .toc h2 { font-family: 'Playfair Display', serif; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 16px; font-weight: 700; }
+  .toc-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px 32px; }
+  .toc-list li a { text-decoration: none; color: var(--accent); font-size: 14px; display: flex; align-items: baseline; gap: 8px; }
+  .toc-list li a::before { content: attr(data-num); font-size: 11px; color: var(--ink-muted); min-width: 24px; }
+
+  /* CONTENT */
+  .content { max-width: 880px; margin: 0 auto; padding: 0 48px 80px; }
+  .section { padding-top: 56px; }
+  .section-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 8px; }
+  .section h2 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--ink); margin-bottom: 6px; line-height: 1.2; }
+  .section-rule { height: 2px; background: linear-gradient(to right, var(--accent), transparent); margin-bottom: 28px; border-radius: 1px; }
+  h3 { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; color: var(--ink); margin: 36px 0 12px; }
+  h4 { font-size: 14px; font-weight: 600; color: var(--ink-light); margin: 22px 0 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  p { margin-bottom: 14px; }
+
+  /* CALLOUTS */
+  .callout { border-left: 3px solid var(--accent); background: var(--accent-pale); padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 20px 0; }
+  .callout.teal { border-left-color: var(--teal); background: var(--teal-pale); }
+  .callout.gold { border-left-color: var(--gold); background: var(--gold-pale); }
+  .callout.purple { border-left-color: var(--purple); background: var(--purple-pale); }
+  .callout.red { border-left-color: var(--red); background: var(--red-pale); }
+  .callout-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 6px; }
+  .callout.teal .callout-label { color: var(--teal); }
+  .callout.gold .callout-label { color: var(--gold); }
+  .callout.purple .callout-label { color: var(--purple); }
+  .callout.red .callout-label { color: var(--red); }
+  .callout p { margin-bottom: 0; }
+
+  /* EXAMPLE BOX */
+  .example-box { background: var(--paper-card); border: 1px solid var(--border); border-radius: 10px; padding: 24px 28px; margin: 24px 0; }
+  .example-box .ex-title { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .ex-num { background: var(--accent); color: #fff; font-family: 'Source Serif 4', serif; font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 3px; }
+  .answer-block { background: var(--teal-pale); border: 1px solid var(--teal-light); border-radius: 8px; padding: 14px 18px; margin-top: 14px; }
+  .answer-block .ans-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); font-weight: 600; margin-bottom: 6px; }
+  .answer-block p { margin-bottom: 0; }
+
+  /* FORMULA */
+  .formula { background: var(--purple-pale); border: 1px solid var(--purple-light); border-radius: 8px; padding: 14px 24px; font-style: italic; text-align: center; font-size: 18px; color: var(--purple); margin: 16px 0; font-family: 'Playfair Display', serif; }
+  .formula small { font-size: 13px; display: block; margin-top: 6px; color: var(--purple); font-style: normal; font-family: 'Source Serif 4', serif; }
+
+  /* GRIDS */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .compare-card { background: var(--paper-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+  .compare-card.left { border-top: 3px solid var(--accent); }
+  .compare-card.right { border-top: 3px solid var(--teal); }
+  .compare-card.purple { border-top: 3px solid var(--purple); }
+  .compare-card.gold { border-top: 3px solid var(--gold); }
+  .compare-card h5 { font-family: 'Playfair Display', serif; font-size: 15px; margin-bottom: 10px; }
+  .compare-card.left h5 { color: var(--accent); }
+  .compare-card.right h5 { color: var(--teal); }
+  .compare-card.purple h5 { color: var(--purple); }
+  .compare-card.gold h5 { color: var(--gold); }
+  .compare-card ul { list-style: none; font-size: 14px; color: var(--ink-light); }
+  .compare-card ul li { padding: 5px 0; border-bottom: 1px solid var(--border); display: flex; gap: 8px; align-items: flex-start; }
+  .compare-card ul li::before { content: '→'; color: var(--ink-muted); flex-shrink: 0; }
+  .compare-card ul li:last-child { border-bottom: none; }
+
+  /* AVERAGE CARDS */
+  .avg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin: 20px 0; }
+  .avg-card { background: var(--paper-card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+  .avg-name { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+  .avg-desc { font-size: 13px; color: var(--ink-light); line-height: 1.6; }
+
+  /* TABLES */
+  .data-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  .data-table th { background: var(--ink); color: var(--paper); padding: 10px 14px; text-align: left; font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700; }
+  .data-table td { padding: 9px 14px; border-bottom: 1px solid var(--border); color: var(--ink-light); vertical-align: top; }
+  .data-table tr:nth-child(even) td { background: var(--paper-warm); }
+  .data-table td.highlight { font-weight: 600; color: var(--ink); }
+
+  /* CALC TABLE */
+  .calc-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 14px 0; }
+  .calc-table th { background: var(--accent); color: #fff; padding: 9px 12px; text-align: center; font-family: 'Playfair Display', serif; font-size: 13px; }
+  .calc-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); text-align: center; color: var(--ink-light); }
+  .calc-table tr:nth-child(even) td { background: var(--accent-pale); }
+  .calc-table .total-row td { font-weight: 700; color: var(--ink); background: var(--paper-warm) !important; border-top: 2px solid var(--border); }
+  .calc-table td:first-child { text-align: left; }
+
+  /* MERITS TABLE */
+  .merit-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+  .merit-table th { padding: 10px 14px; text-align: left; font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700; }
+  .merit-table th:first-child { background: var(--ink); color: var(--paper); border-radius: 8px 0 0 0; }
+  .merit-table th.merit { background: var(--accent); color: #fff; }
+  .merit-table th.demerit { background: var(--red); color: #fff; border-radius: 0 8px 0 0; }
+  .merit-table td { padding: 8px 14px; border-bottom: 1px solid var(--border); vertical-align: top; font-size: 13px; }
+  .merit-table td:first-child { font-weight: 600; color: var(--ink); background: var(--paper-warm); }
+  .merit-table td.merit-col { color: var(--accent); background: var(--accent-pale); }
+  .merit-table td.demerit-col { color: var(--red); background: var(--red-pale); }
+
+  /* BADGES */
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; letter-spacing: 0.5px; }
+  .badge-green { background: var(--accent-pale); color: var(--accent); }
+  .badge-blue { background: var(--teal-pale); color: var(--teal); }
+  .badge-gold { background: var(--gold-pale); color: var(--gold); }
+  .badge-red { background: var(--red-pale); color: var(--red); }
+
+  /* VISUAL SCALES */
+  .skew-visual { display: flex; gap: 12px; margin: 16px 0; flex-wrap: wrap; }
+  .skew-box { flex: 1; min-width: 180px; background: var(--paper-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; }
+  .skew-label { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+  .skew-relation { font-size: 13px; color: var(--ink-light); font-style: italic; }
+  .skew-bar { height: 8px; border-radius: 4px; margin: 8px 0; }
+
+  /* QUARTILES BOX */
+  .box-plot-visual { background: var(--paper-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin: 16px 0; }
+  .bp-track { position: relative; height: 36px; background: var(--paper-warm); border-radius: 4px; margin: 16px 0; }
+  .bp-box { position: absolute; height: 100%; background: var(--accent); opacity: 0.25; border-radius: 4px; }
+  .bp-median { position: absolute; top: 0; height: 100%; width: 3px; background: var(--accent); }
+  .bp-whisker-l, .bp-whisker-r { position: absolute; top: 50%; width: 1px; background: var(--ink-muted); transform: translateY(-50%); }
+  .bp-whisker-l { height: 20px; }
+  .bp-whisker-r { height: 20px; }
+  .bp-cap { position: absolute; width: 8px; height: 3px; background: var(--ink-muted); top: 50%; transform: translateY(-50%); }
+
+  /* SUMMARY */
+  .summary-box { background: var(--ink); color: var(--paper); border-radius: 12px; padding: 32px 36px; margin: 48px 0 0; }
+  .summary-box h3 { font-family: 'Playfair Display', serif; color: var(--accent-light); font-size: 18px; margin: 0 0 20px; }
+  .summary-box ul { list-style: none; }
+  .summary-box ul li { padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 14px; color: #a8c0aa; display: flex; gap: 10px; }
+  .summary-box ul li::before { content: '✓'; color: var(--accent-light); flex-shrink: 0; }
+
+  .divider { height: 1px; background: var(--border); margin: 40px 0; }
+
+  .formula-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+  .formula-group .formula { font-size: 15px; margin: 0; }
+
+  @media (max-width: 640px) {
+    .cover, .toc, .content { padding-left: 20px; padding-right: 20px; }
+    .compare-grid, .formula-group { grid-template-columns: 1fr; }
+    .avg-grid { grid-template-columns: 1fr 1fr; }
+    .skew-visual { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-badge">MTH-262 · Study Notes</div>
+  <h1>Chapter 3<br>Measures of Central Tendency</h1>
+  <p class="cover-sub">Introduction to Statistical Theory, Part 1 — Chaudhry & Kamal</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item">Book<strong>ITST Part 1</strong></div>
+    <div class="cover-meta-item">Key Topics<strong>Mean · Median · Mode · Quantiles</strong></div>
+    <div class="cover-meta-item">Level<strong>Beginner Friendly</strong></div>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h2>Contents</h2>
+  <ul class="toc-list">
+    <li><a href="#s1" data-num="3.1">What is Central Tendency?</a></li>
+    <li><a href="#s2" data-num="3.2">Criteria for a Good Average</a></li>
+    <li><a href="#s3" data-num="3.3">Types of Averages</a></li>
+    <li><a href="#s4" data-num="3.4">Arithmetic Mean</a></li>
+    <li><a href="#s5" data-num="3.4.1">Weighted Mean</a></li>
+    <li><a href="#s6" data-num="3.4.2">Properties of the Mean</a></li>
+    <li><a href="#s7" data-num="3.4.3">Mean from Grouped Data</a></li>
+    <li><a href="#s8" data-num="3.4.4">Change of Origin and Scale</a></li>
+    <li><a href="#s9" data-num="3.5">Geometric Mean</a></li>
+    <li><a href="#s10" data-num="3.6">Harmonic Mean</a></li>
+    <li><a href="#s11" data-num="3.7">Median</a></li>
+    <li><a href="#s12" data-num="3.7.1">Quantiles (Quartiles, Deciles, Percentiles)</a></li>
+    <li><a href="#s13" data-num="3.8">Mode</a></li>
+    <li><a href="#s14" data-num="3.9">Empirical Relation: Mean, Median, Mode</a></li>
+    <li><a href="#s15" data-num="3.10">Box Plots</a></li>
+    <li><a href="#s16" data-num="3.11">Merits & Demerits</a></li>
+  </ul>
+</div>
+
+<div class="content">
+
+<!-- SECTION 1 -->
+<div class="section" id="s1">
+  <p class="section-label">Section 3.1</p>
+  <h2>What is Central Tendency?</h2>
+  <div class="section-rule"></div>
+
+  <p>When you have a large set of data, a single number that represents the "centre" or "typical value" of all observations is incredibly useful. This is called a <strong>measure of central tendency</strong>.</p>
+
+  <div class="callout">
+    <div class="callout-label">Definition</div>
+    <p><strong>Central Tendency</strong> is the tendency of observations to cluster around a central value in a data set. A measure of central tendency is a single value that represents the entire data set and indicates where the data tends to concentrate.</p>
+  </div>
+
+  <div class="callout gold">
+    <div class="callout-label">Also Known As</div>
+    <p>Measures of central tendency are also called <strong>measures of location</strong> or <strong>averages</strong>. In everyday language, when someone says "the average," they usually mean the Arithmetic Mean.</p>
+  </div>
+
+  <p>Two important points to remember about any measure of central tendency:</p>
+  <ol style="margin: 10px 0 10px 22px; line-height: 2.2; font-size: 15px;">
+    <li>It should be somewhere <strong>within the range of the data</strong> — not outside it</li>
+    <li>It should remain <strong>unchanged</strong> if the observations are rearranged in a different order</li>
+  </ol>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 2 -->
+<div class="section" id="s2">
+  <p class="section-label">Section 3.2</p>
+  <h2>Criteria for a Good Average</h2>
+  <div class="section-rule"></div>
+
+  <p>Not every average is equally useful. A <em>satisfactory</em> average should meet most of the following 6 conditions:</p>
+
+  <div class="avg-grid">
+    <div class="avg-card">
+      <div class="avg-name" style="color:var(--accent);">① Rigorously Defined</div>
+      <div class="avg-desc">Has a clear, precise mathematical formula — no ambiguity</div>
+    </div>
+    <div class="avg-card">
+      <div class="avg-name" style="color:var(--teal);">② Based on All Observations</div>
+      <div class="avg-desc">Uses every single value in the data set</div>
+    </div>
+    <div class="avg-card">
+      <div class="avg-name" style="color:var(--purple);">③ Simple to Understand</div>
+      <div class="avg-desc">Easy to interpret and explain to non-statisticians</div>
+    </div>
+    <div class="avg-card">
+      <div class="avg-name" style="color:var(--gold);">④ Easy to Calculate</div>
+      <div class="avg-desc">Can be computed quickly without complex mathematics</div>
+    </div>
+    <div class="avg-card">
+      <div class="avg-name" style="color:var(--accent);">⑤ Amenable to Math Treatment</div>
+      <div class="avg-desc">Can be used in further statistical calculations and algebra</div>
+    </div>
+    <div class="avg-card">
+      <div class="avg-name" style="color:var(--teal);">⑥ Stable in Sampling</div>
+      <div class="avg-desc">Should not fluctuate wildly from sample to sample</div>
+    </div>
+    <div class="avg-card" style="grid-column: span 1;">
+      <div class="avg-name" style="color:var(--red);">⑦ Not Affected by Extreme Values</div>
+      <div class="avg-desc">Unusually large or small values shouldn't distort it</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 3 -->
+<div class="section" id="s3">
+  <p class="section-label">Section 3.3</p>
+  <h2>Types of Averages</h2>
+  <div class="section-rule"></div>
+
+  <p>There are five main types of averages covered in your syllabus:</p>
+
+  <div class="avg-grid">
+    <div class="avg-card" style="border-top: 3px solid var(--accent);">
+      <div class="avg-name" style="color:var(--accent);">Arithmetic Mean (AM)</div>
+      <div class="avg-desc">The most common average — sum of all values divided by count. Mathematical in character.</div>
+    </div>
+    <div class="avg-card" style="border-top: 3px solid var(--teal);">
+      <div class="avg-name" style="color:var(--teal);">Geometric Mean (GM)</div>
+      <div class="avg-desc">The nth root of the product of all n values. Used for ratios and rates of change.</div>
+    </div>
+    <div class="avg-card" style="border-top: 3px solid var(--purple);">
+      <div class="avg-name" style="color:var(--purple);">Harmonic Mean (HM)</div>
+      <div class="avg-desc">Reciprocal of the average of reciprocals. Used for averaging speeds and rates.</div>
+    </div>
+    <div class="avg-card" style="border-top: 3px solid var(--gold);">
+      <div class="avg-name" style="color:var(--gold);">Median</div>
+      <div class="avg-desc">The middle value that divides ordered data into two equal halves. A positional average.</div>
+    </div>
+    <div class="avg-card" style="border-top: 3px solid var(--red);">
+      <div class="avg-name" style="color:var(--red);">Mode</div>
+      <div class="avg-desc">The most frequently occurring value. Can have more than one mode or no mode.</div>
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <div class="callout-label">Memory Trick</div>
+    <p>The first three (AM, GM, HM) are mathematical averages that indicate the <em>magnitude</em> of values. The Median indicates <em>middle position</em>. The Mode indicates the <em>most frequent value</em>.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 4 — ARITHMETIC MEAN -->
+<div class="section" id="s4">
+  <p class="section-label">Section 3.4</p>
+  <h2>Arithmetic Mean</h2>
+  <div class="section-rule"></div>
+
+  <p>The arithmetic mean (or simply "the mean") is the most widely used average. It is what most people mean when they say "average."</p>
+
+  <div class="callout">
+    <div class="callout-label">Definition</div>
+    <p>The Arithmetic Mean is the sum of all observations divided by the number of observations.</p>
+  </div>
+
+  <div class="formula-group">
+    <div class="formula">x̄ = Σxᵢ / n<small>Sample Mean (denoted by x̄, Latin letter)</small></div>
+    <div class="formula">μ = Σxᵢ / N<small>Population Mean (denoted by μ, Greek letter)</small></div>
+  </div>
+
+  <div class="callout gold">
+    <div class="callout-label">Population vs Sample Mean</div>
+    <p><strong>Population Mean (μ):</strong> Calculated from all N observations. A fixed, constant value.<br>
+    <strong>Sample Mean (x̄):</strong> Calculated from a sample of n observations. A variable — different samples give different means.<br>
+    The sample mean is used to estimate the population mean.</p>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-title"><span class="ex-num">Example 3.1</span> From the Book — Simple Mean</div>
+    <p>Marks of 9 students: 45, 32, 37, 46, 39, 36, 41, 48, 36</p>
+    <div class="answer-block">
+      <div class="ans-label">Solution</div>
+      <p>x̄ = (45 + 32 + 37 + 46 + 39 + 36 + 41 + 48 + 36) / 9<br>
+      x̄ = 360 / 9 = <strong>40 marks</strong></p>
+    </div>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-title"><span class="ex-num">Practice</span> Calculate the Mean</div>
+    <p>Heights of 6 students (in cm): 160, 175, 163, 158, 170, 182</p>
+    <div class="answer-block">
+      <div class="ans-label">Solution</div>
+      <p>x̄ = (160 + 175 + 163 + 158 + 170 + 182) / 6 = 1008 / 6 = <strong>168 cm</strong></p>
+    </div>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-title"><span class="ex-num">Example 3.3</span> Combined Mean of Groups</div>
+    <p>Three sections of a statistics class:</p>
+    <table class="calc-table">
+      <thead><tr><th>Section</th><th>Number of Boys (n)</th><th>Mean Height (x̄)</th></tr></thead>
+      <tbody>
+        <tr><td>A</td><td>40</td><td>62"</td></tr>
+        <tr><td>B</td><td>37</td><td>58"</td></tr>
+        <tr><td>C</td><td>43</td><td>61"</td></tr>
+        <tr class="total-row"><td><strong>Combined</strong></td><td><strong>120</strong></td><td><strong>?</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="answer-block">
+      <div class="ans-label">Combined Mean Formula</div>
+      <p>x̄ = (n₁x̄₁ + n₂x̄₂ + n₃x̄₃) / (n₁ + n₂ + n₃)<br>
+      x̄ = (40×62 + 37×58 + 43×61) / (40+37+43)<br>
+      x̄ = (2480 + 2146 + 2623) / 120 = 7249 / 120 = <strong>60.4"</strong></p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 5 — WEIGHTED MEAN -->
+<div class="section" id="s5">
+  <p class="section-label">Section 3.4.1</p>
+  <h2>Weighted Arithmetic Mean</h2>
+  <div class="section-rule"></div>
+
+  <div class="callout teal">
+    <div class="callout-label">When to Use It</div>
+    <p>A <strong>Weighted Mean</strong> is used when different observations have different levels of importance. Each value xᵢ is multiplied by a <em>weight</em> wᵢ that reflects its relative importance.</p>
+  </div>
+
+  <div class="formula">x̄w = Σ(wᵢ × xᵢ) / Σwᵢ<small>Used for index numbers, birth/death rates, exam grades with different credits</small></div>
+
+  <div class="example-box">
+    <div class="ex-title"><span class="ex-num">Example 3.2</span> From the Book — Weighted Mean</div>
+    <p>Monthly expenditure with weights:</p>
+    <table class="calc-table">
+      <thead><tr><th>Item</th><th>Expenditure (x)</th><th>Weight (w)</th><th>w × x</th></tr></thead>
+      <tbody>
+        <tr><td>Food</td><td>290</td><td>7.5</td><td>2175.0</td></tr>
+        <tr><td>Rent</td><td>54</td><td>2.0</td><td>108.0</td></tr>
+        <tr><td>Clothing</td><td>98</td><td>1.5</td><td>147.0</td></tr>
+        <tr><td>Fuel & Light</td><td>75</td><td>1.0</td><td>75.0</td></tr>
+        <tr><td>Other items</td><td>75</td><td>0.5</td><td>37.5</td></tr>
+        <tr class="total-row"><td><strong>Total</strong></td><td></td><td><strong>12.5</strong></td><td><strong>2542.5</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="answer-block">
+      <div class="ans-label">Solution</div>
+      <p>x̄w = Σ(w×x) / Σw = 2542.5 / 12.5 = <strong>Rs. 203.4</strong></p>
+    </div>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-title"><span class="ex-num">Practice</span> Weighted Mean — Exam Grades</div>
+    <p>A candidate's exam percentages with subject weights (4, 3, 3, 1, 1) for English (73), French (82), Maths (57), Science (62), History (60).</p>
+    <div class="answer-block">
+      <div class="ans-label">Solution</div>
+      <p>Σ(w×x) = 4×73 + 3×82 + 3×57 + 1×62 + 1×60 = 292 + 246 + 171 + 62 + 60 = 831<br>
+      Σw = 4+3+3+1+1 = 12<br>
+      Weighted Mean = 831/12 = <strong>69.25%</strong></p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 6 — PROPERTIES -->
+<div class="section" id="s6">
+  <p class="section-label">Section 3.4.2</p>
+  <h2>Properties of the Arithmetic Mean</h2>
+  <div class="section-rule"></div>
+
+  <p>The arithmetic mean has four important mathematical properties you must know:</p>
+
+  <div class="data-table" style="margin-top:16px;">
+    <table class="data-table">
+      <thead><tr><th>Property</th><th>Statement</th><th>In Simple Words</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="highlight">① Sum of Deviations = 0</td>
+          <td>Σ(xᵢ − x̄) = 0</td>
+          <td>The sum of all differences from the mean is always zero. The mean is the "balance point."</td>
+        </tr>
+        <tr>
+          <td class="highlight">② Minimal Property</td>
+          <td>Σ(xᵢ − x̄)² ≤ Σ(xᵢ − a)² for any a</td>
+          <td>The sum of squared deviations is minimum when measured from the mean (not from any other value).</td>
+        </tr>
+        <tr>
+          <td class="highlight">③ Combined Mean</td>
+          <td>x̄ = (n₁x̄₁ + n₂x̄₂ + …) / (n₁ + n₂ + …)</td>
+          <td>The overall mean of combined groups is a weighted average of the group means.</td>
+        </tr>
+        <tr>
+          <td class="highlight">④ Linear Transformation</td>
+          <td>If y = ax + b, then ȳ = ax̄ + b</td>
+          <td>If every observation is changed by a linear formula, the mean changes by the same formula.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-title"><span class="ex-num">Verify Property ①</span> Sum of Deviations = 0</div>
+    <p>Data: 45, 32, 37, 46, 39, 36, 41, 48, 36. Mean x̄ = 40</p>
+    <p>Deviations from mean: (45−40) + (32−40) + (37−40) + (46−40) + (39−40) + (36−40) + (41−40) + (48−40) + (36−40)</p>
+    <div class="answer-block">
+      <div class="ans-label">Verification</div>
+      <p>= 5 + (−8) + (−3) + 6 + (−1) + (−4) + 1 + 8 + (−4) = <strong>0 ✓</strong></p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 7 — GROUPED DATA -->
+<div class="section" id="s7">
+  <p class="section-label">Section 3.4.3</p>
+  <h2>Mean from Grouped Data</h2>
+  <div class="section-rule"></div>
+
+  <p>When data is organized into a frequency distribution, we use the <strong>class marks (midpoints)</strong> to represent each class and multiply by the frequency.</p>
+
+  <div class="formula">x̄ = Σ(fᵢ × xᵢ) / Σfᵢ = Σ(f × x) / n<small>where xᵢ = class mark, fᵢ = frequency, n = total frequency</small></div>
+
+  <div class="callout gold">
+    <div class="callout-label">Why is this an Approximation?</div>
+    <p>In grouped data, we assume all observations in a class are equal to the class midpoint. This introduces a small <em>grouping error</em>, but statistical experience shows these errors are usually small and tend to cancel out.</p>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-title"><span class="ex-num">Example 3.4</span> Mean from Grouped Data (Apple Weights)</div>
+    <table class="calc-table">
+      <thead><tr><th>Weight Class</th><th>Midpoint (x)</th><th>Freq (f)</th><th>f × x</th></tr></thead>
+      <tbody>
+        <tr><td>65 – 84</td><td>74.5</td><td>9</td><td>670.5</td></tr>
+        <tr><td>85 – 104</td><td>94.5</td><td>10</td><td>945.0</td></tr>
+        <tr><td>105 – 124</td><td>114.5</td><td>17</td><td>1946.5</td></tr>
+        <tr><td>125 – 144</td><td>134.5</td><td>10</td><td>1345.0</td></tr>
+        <tr><td>145 – 164</td><td>154.5</td><td>5</td><td>772.5</td></tr>
+        <tr><td>165 – 184</td><td>174.5</td><td>4</td><td>698.0</td></tr>
+        <tr><td>185 – 204</td><td>194.5</td><td>5</td><td>972.5</td></tr>
+        <tr class="total-row"><td><strong>Total</strong></td><td></td><td><strong>60</strong></td><td><strong>7350.0</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="answer-block">
+      <div class="ans-label">Solution</div>
+      <p>x̄ = Σ(f × x) / n = 7350.0 / 60 = <strong>122.5 grams</strong></p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 8 — CHANGE OF ORIGIN AND SCALE -->
+<div class="section" id="s8">
+  <p class="section-label">Section 3.4.4 ★ In Your Syllabus</p>
+  <h2>Change of Origin and Scale</h2>
+  <div class="section-rule"></div>
+
+  <div class="callout red">
+    <div class="callout-label">Important — This Topic is in Your Syllabus!</div>
+    <p>Change of Origin and Scale is explicitly included by your teacher. Learn this method well — it saves huge amounts of calculation time on the exam.</p>
+  </div>
+
+  <p>When numbers are large or messy, we can simplify the mean calculation using a <strong>coding method</strong>. The idea is to shift and scale the data to smaller numbers, compute the mean, then reverse the transformation.</p>
+
+  <div class="callout">
+    <div class="callout-label">The Transformation</div>
+    <p>Let <strong>a</strong> = assumed mean (usually the midpoint with the highest frequency)<br>
+    Let <strong>h</strong> = class width (scale factor)<br>
+    Define coded variable: <strong>u = (x − a) / h</strong><br><br>
+    Then: <strong>x̄ = a + h × ū</strong> where ū = Σ(f × u) / n</p>
+  </div>
+
+  <div class="formula">x̄ = a + h · (Σfᵢuᵢ / n)<small>where uᵢ = (xᵢ − a) / h is the coded value for each class</small></div>
+
+  <div class="example-box">
+    <div class="ex-title"><span class="ex-num">Example 3.5</span> Change of Origin and Scale — Apple Weights</div>
+    <p>Using a = 114.5 (highest frequency midpoint), h = 20 (class width):</p>
+    <table class="calc-table">
+      <thead><tr><th>Weight</th><th>Midpoint (x)</th><th>f</th><th>u = (x−114.5)/20</th><th>f × u</th></tr></thead>
+      <tbody>
+        <tr><td>65 – 84</td><td>74.5</td><td>9</td><td>−2</td><td>−18</td></tr>
+        <tr><td>85 – 104</td><td>94.5</td><td>10</td><td>−1</td><td>−10</td></tr>
+        <tr><td>105 – 124</td><td>114.5</td><td>17</td><td>0</td><td>0</td></tr>
+        <tr><td>125 – 144</td><td>134.5</td><td>10</td><td>+1</td><td>+10</td></tr>
+        <tr><td>145 – 164</td><td>154.5</td><td>5</td><td>+2</td><td>+10</td></tr>
+        <tr><td>165 – 184</td><td>174.5</td><td>4</td><td>+3</td><td>+12</td></tr>
+        <tr><td>185 – 204</td><td>194.5</td><td>5</td><td>+4</td><td>+20</td></tr>
+        <tr class="total-row"><td><strong>Total</strong></td><td></td><td><strong>60</strong></td><td></td><td><strong>+24</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="answer-block">
+      <div class="ans-label">Solution</div>
+      <p>ū = Σ(f × u) / n = 24 / 60 = 0.4<br>
+      x̄ = a + h × ū = 114.5 + 20 × 0.4 = 114.5 + 8.0 = <strong>122.5 grams ✓</strong><br>
+      (Same answer as the direct method — but much less work!)</p>
+    </div>
+  </div>
+
+  <div class="callout purple">
+    <div class="callout-label">Why This Works — Key Insight</div>
+    <p>The mean changes with both change of origin (adding/subtracting a constant) and change of scale (multiplying/dividing). So:<br>
+    — Adding a constant to all values → mean increases by that constant<br>
+    — Multiplying all values by a constant → mean gets multiplied by that constant<br>
+    This is Property ④ (Linear Transformation) in action.</p>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-title"><span class="ex-num">Practice</span> Change of Origin and Scale</div>
+    <p>Use a = 25, h = 5 for this frequency distribution:</p>
+    <table class="calc-table">
+      <thead><tr><th>Class</th><th>Midpoint (x)</th><th>f</th><th>u = (x−25)/5</th><th>f × u</th></tr></thead>
+      <tbody>
+        <tr><td>10 – 14</td><td>12</td><td>3</td><td>−2.6 → −3 (approx)</td><td>Use exact: u=(12−25)/5 = −2.6</td></tr>
+        <tr><td>15 – 19</td><td>17</td><td>7</td><td>−1.6</td><td>−11.2</td></tr>
+        <tr><td>20 – 24</td><td>22</td><td>12</td><td>−0.6</td><td>−7.2</td></tr>
+        <tr><td>25 – 29</td><td>27</td><td>9</td><td>+0.4</td><td>+3.6</td></tr>
+        <tr><td>30 – 34</td><td>32</td><td>4</td><td>+1.4</td><td>+5.6</td></tr>
+        <tr class="total-row"><td><strong>Total</strong></td><td></td><td><strong>35</strong></td><td></td><td><strong>−17.0</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="answer-block">
+      <div class="ans-label">Tip — Choose a Wisely</div>
+      <p>In the above example, since h=5 doesn't divide evenly into (x−a), you can use a simpler approach: set h=1 and just let u = (x−a). Or choose a to be one of the actual class midpoints (e.g., the midpoint of the highest frequency class). Your teacher's examples from the book always use class midpoints — follow that pattern.</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 9 — GEOMETRIC MEAN -->
+<div class="section" id="s9">
+  <p class="section-label">Section 3.5</p>
+  <h2>Geometric Mean (GM)</h2>
+  <div class="section-rule"></div>
+
+  <div class="callout teal">
+    <div class="callout-label">Definition</div>
+    <p>The <strong>Geometric Mean</strong> of n positive values is the nth root of their product.</p>
+  </div>
+
+  <div class="formula-group">
+    <div class="formula">G = ⁿ√(x₁ × x₂ × … × xₙ)<small>Ungrouped Data (x must be positive)</small></div>
+    <div class="formula">log G = (1/n) Σ log xᵢ<small>Practical Formula using Logarithms</small></div>
+  </div>
+
+  <div class="callout gold">
+    <div class="callout-label">How to Calculate (Using Logs)</div>
+    <p>Since taking the nth root of a large product is impractical:<br>
+    1. Take log of each value: log(x₁), log(x₂), …<br>
+    2. Find the arithmetic mean of the logs<br>
+    3. Take anti-log of that mean → that's the GM<br>
+    In short: <strong>GM = Anti-log [ (Σ log x) / n ]</strong></p>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-title"><span class="ex-num">Example 3.7</span> Geometric Mean — 9 Values</div>
+    <p>Data: 45, 32, 37, 46, 39, 36, 41, 48, 36</p>
+    <table class="calc-table">
+      <thead><tr><th>x</th><th>log x</th></tr></thead>
+      <tbody>
+        <tr><td>45</td><td>1.6532</td></tr>
+        <tr><td>32</td><td>1.5052</td></tr>
+        <tr><td>37</td><td>1.5682</td></tr>
+        <tr><td>46</td><td>1.6628</td></tr>
+        <tr><td>39</td><td>1.5911</td></tr>
+        <tr><td>36</td><td>1.5563</td></tr>
+        <tr><td>41</td><td>1.6128</td></tr>
+        <tr><td>48</td><td>1.6812</td></tr>
+        <tr><td>36</td><td>1.5563</td></tr>
+        <tr class="total-row"><td><strong>Total</strong></td><td><strong>14.3871</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="answer-block">
+      <div class="ans-label">Solution</div>
+      <p>log G = 14.3871 / 9 = 1.5986<br>
+      G = Anti-log(1.5986) = <strong>≈ 39.68</strong><br>
+      (Compare: Arithmetic Mean = 40. GM is slightly less, as expected.)</p>
+    </div>
+  </div>
+
+  <p>For grouped data: <strong>log G = (1/n) Σ fᵢ log xᵢ</strong></p>
+
+  <div class="callout">
+    <div class="callout-label">When to Use GM</div>
+    <p>Use GM when averaging <strong>ratios, rates of change, or percentages</strong> — e.g., average population growth rate, average interest rates, price index numbers. Never use GM when any value is zero or negative.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 10 — HARMONIC MEAN -->
+<div class="section" id="s10">
+  <p class="section-label">Section 3.6</p>
+  <h2>Harmonic Mean (HM)</h2>
+  <div class="section-rule"></div>
+
+  <div class="callout purple">
+    <div class="callout-label">Definition</div>
+    <p>The <strong>Harmonic Mean</strong> is the reciprocal of the arithmetic mean of the reciprocals of the values.</p>
+  </div>
+
+  <div class="formula">H = n / Σ(1/xᵢ)<small>where n = number of values and xᵢ ≠ 0</small></div>
+
+  <div class="callout gold">
+    <div class="callout-label">When to Use HM — The Golden Rule</div>
+    <p><em>"When rates are expressed as x per y, and <strong>x is constant</strong>, the Harmonic Mean is required; but if <strong>y is constant</strong>, the Arithmetic Mean is required."</em><br><br>
+    <strong>Classic Example:</strong> A car travels at 15 km/hr, 20 km/hr, 25 km/hr for equal <em>distances</em>. Distance is constant → Use Harmonic Mean.<br>
+    But if it travels for equal <em>times</em> at those speeds, use Arithmetic Mean.</p>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-title"><span class="ex-num">Classic Speed Problem</span> Harmonic Mean for Equal Distances</div>
+    <p>A car travels 30 km at 15 km/hr, next 30 km at 20 km/hr, last 30 km at 25 km/hr. Find average speed.</p>
+    <div class="answer-block">
+      <div class="ans-label">Solution — Harmonic Mean (distance = constant)</div>
+      <p>H = 3 / (1/15 + 1/20 + 1/25)<br>
+      H = 3 / (0.0667 + 0.0500 + 0.0400)<br>
+      H = 3 / 0.1567 = <strong>≈ 19.15 km/hr</strong></p>
+    </div>
+  </div>
+
+  <p>For grouped data: <strong>H = n / Σ fᵢ(1/xᵢ)</strong></p>
+
+  <div class="callout teal">
+    <div class="callout-label">Relationship: AM ≥ GM ≥ HM</div>
+    <p>For any set of positive numbers, the Arithmetic Mean is always greater than or equal to the Geometric Mean, which is always greater than or equal to the Harmonic Mean. Equality holds only when all values are equal.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 11 — MEDIAN -->
+<div class="section" id="s11">
+  <p class="section-label">Section 3.7</p>
+  <h2>Median</h2>
+  <div class="section-rule"></div>
+
+  <div class="callout">
+    <div class="callout-label">Definition</div>
+    <p>The <strong>Median</strong> is the value that divides an <em>ordered</em> data set into two equal halves — 50% of data lies below it, 50% above it. It is called the "average of position."</p>
+  </div>
+
+  <h3>Median for Ungrouped Data</h3>
+  <p><strong>Step 1:</strong> Arrange data in ascending (or descending) order.<br>
+  <strong>Step 2:</strong> Count n (total observations).</p>
+
+  <div class="compare-grid">
+    <div class="compare-card left">
+      <h5>If n is ODD</h5>
+      <ul>
+        <li>Median = the ((n+1)/2)th value in the ordered data</li>
+        <li>Example: n=9 → Median = 5th value</li>
+      </ul>
+    </div>
+    <div class="compare-card right">
+      <h5>If n is EVEN</h5>
+      <ul>
+        <li>Median = average of (n/2)th and (n/2 + 1)th values</li>
+        <li>Example: n=10 → Median = average of 5th and 6th values</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-title"><span class="ex-num">Example 3.11</span> From the Book — Median of 9 Values</div>
+    <p>Marks: 45, 32, 37, 46, 39, 36, 41, 48, 36<br>
+    <strong>Ordered:</strong> 32, 36, 36, 37, 39, 41, 45, 46, 48</p>
+    <div class="answer-block">
+      <div class="ans-label">Solution</div>
+      <p>n = 9 (odd) → Median = ((9+1)/2)th = 5th value = <strong>39 marks</strong></p>
+    </div>
+  </div>
+
+  <h3>Median for Grouped Data (Interpolation Formula)</h3>
+
+  <div class="formula">Median = l + (h/f) × (n/2 − C)<small>l = lower boundary of median class, f = frequency of median class, h = class width, C = cumulative frequency before median class, n = total frequency</small></div>
+
+  <h4>Steps to Find Median from Grouped Data:</h4>
+  <ol style="margin: 10px 0 10px 22px; line-height: 2.4; font-size: 15px;">
+    <li>Compute cumulative frequencies</li>
+    <li>Find n/2 (half the total frequency)</li>
+    <li>Find the <strong>Median Class</strong> — the class where cumulative frequency first reaches or exceeds n/2</li>
+    <li>Apply the interpolation formula</li>
+  </ol>
+
+  <div class="example-box">
+    <div class="ex-title"><span class="ex-num">Example 3.13</span> From the Book — Median of Examination Marks</div>
+    <table class="calc-table">
+      <thead><tr><th>Class Boundaries</th><th>Frequency (f)</th><th>Cumulative Freq (F)</th></tr></thead>
+      <tbody>
+        <tr><td>29.5 – 39.5</td><td>8</td><td>8</td></tr>
+        <tr><td>39.5 – 49.5</td><td>87</td><td>95</td></tr>
+        <tr><td>49.5 – 59.5</td><td>190</td><td>285</td></tr>
+        <tr style="background:var(--accent-pale);"><td><strong>59.5 – 69.5 ← Median Class</strong></td><td><strong>304</strong></td><td><strong>589</strong></td></tr>
+        <tr><td>69.5 – 79.5</td><td>211</td><td>800</td></tr>
+        <tr><td>79.5 – 89.5</td><td>85</td><td>885</td></tr>
+        <tr><td>89.5 – 99.5</td><td>20</td><td>905</td></tr>
+        <tr class="total-row"><td><strong>Total</strong></td><td><strong>905</strong></td><td></td></tr>
+      </tbody>
+    </table>
+    <div class="answer-block">
+      <div class="ans-label">Solution</div>
+      <p>n = 905, n/2 = 452.5 → Median class = 59.5 – 69.5 (CF first exceeds 452.5)<br>
+      l = 59.5, f = 304, h = 10, C = 285<br>
+      Median = 59.5 + (10/304) × (452.5 − 285)<br>
+      Median = 59.5 + (10/304) × 167.5<br>
+      Median = 59.5 + 5.51 = <strong>≈ 65 marks</strong></p>
+    </div>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-title"><span class="ex-num">Practice</span> Find the Median</div>
+    <p>Given frequency distribution: Class 10–19 (f=4), 20–29 (f=7), 30–39 (f=12), 40–49 (f=8), 50–59 (f=4). Total n=35.</p>
+    <div class="answer-block">
+      <div class="ans-label">Solution</div>
+      <p>CF: 4, 11, 23, 31, 35. n/2 = 17.5 → Median class: 30–39 (CF first ≥ 17.5)<br>
+      l = 29.5, f = 12, h = 10, C = 11<br>
+      Median = 29.5 + (10/12) × (17.5 − 11) = 29.5 + (10/12) × 6.5 = 29.5 + 5.42 = <strong>34.92</strong></p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 12 — QUANTILES -->
+<div class="section" id="s12">
+  <p class="section-label">Section 3.7.1</p>
+  <h2>Quantiles: Quartiles, Deciles, Percentiles</h2>
+  <div class="section-rule"></div>
+
+  <div class="callout teal">
+    <div class="callout-label">What are Quantiles?</div>
+    <p>Quantiles are values that divide an <em>ordered</em> data set into equal parts. The Median divides data into 2 equal parts. We extend this idea further.</p>
+  </div>
+
+  <div class="avg-grid">
+    <div class="avg-card" style="border-top: 3px solid var(--accent);">
+      <div class="avg-name" style="color:var(--accent);">Quartiles (Q)</div>
+      <div class="avg-desc">3 values (Q₁, Q₂, Q₃) dividing data into 4 equal parts. Q₁ = 25%, Q₂ = 50% (=Median), Q₃ = 75%</div>
+    </div>
+    <div class="avg-card" style="border-top: 3px solid var(--teal);">
+      <div class="avg-name" style="color:var(--teal);">Deciles (D)</div>
+      <div class="avg-desc">9 values (D₁ to D₉) dividing data into 10 equal parts. D₅ = Median.</div>
+    </div>
+    <div class="avg-card" style="border-top: 3px solid var(--purple);">
+      <div class="avg-name" style="color:var(--purple);">Percentiles (P)</div>
+      <div class="avg-desc">99 values (P₁ to P₉₉) dividing data into 100 equal parts. P₅₀ = Median = Q₂ = D₅.</div>
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <div class="callout-label">Useful Equivalences</div>
+    <p>Q₁ = P₂₅ = 25th percentile<br>
+    Q₂ = D₅ = P₅₀ = Median = 50th percentile<br>
+    Q₃ = P₇₅ = 75th percentile<br>
+    D₆ = P₆₀ = 60th percentile</p>
+  </div>
+
+  <h3>Quartile Formulas for Grouped Data</h3>
+
+  <div class="formula-group">
+    <div class="formula">Q₁ = l + (h/f)(n/4 − C)<small>Lower (First) Quartile</small></div>
+    <div class="formula">Q₃ = l + (h/f)(3n/4 − C)<small>Upper (Third) Quartile</small></div>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-title"><span class="ex-num">Example 3.13 Continued</span> Quartiles for Examination Marks</div>
+    <p>Using the same data (n=905, see above):</p>
+    <div class="answer-block">
+      <div class="ans-label">Q₁ Calculation</div>
+      <p>n/4 = 226.25 → Q₁ class: 49.5–59.5 (CF = 285 ≥ 226.25)<br>
+      l = 49.5, f = 190, h = 10, C = 95<br>
+      Q₁ = 49.5 + (10/190)(226.25 − 95) = 49.5 + (10/190)(131.25) = 49.5 + 6.9 = <strong>56.4 ≈ 56 marks</strong></p>
+    </div>
+    <div class="answer-block" style="margin-top:10px;">
+      <div class="ans-label">Q₃ Calculation</div>
+      <p>3n/4 = 678.75 → Q₃ class: 69.5–79.5 (CF = 800 ≥ 678.75)<br>
+      l = 69.5, f = 211, h = 10, C = 589<br>
+      Q₃ = 69.5 + (10/211)(678.75 − 589) = 69.5 + (10/211)(89.75) = 69.5 + 4.25 = <strong>73.75 ≈ 74 marks</strong></p>
+    </div>
+  </div>
+
+  <div class="callout purple">
+    <div class="callout-label">Finding Quantiles in Ungrouped Data</div>
+    <p>For ungrouped/discrete data with n observations:<br>
+    — If jn/100 is NOT a whole number: Pⱼ = observation number [jn/100] + 1<br>
+    — If jn/100 IS a whole number: Pⱼ = average of observations [jn/100] and [jn/100] + 1<br>
+    (where [x] means the largest integer ≤ x)</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 13 — MODE -->
+<div class="section" id="s13">
+  <p class="section-label">Section 3.8</p>
+  <h2>Mode</h2>
+  <div class="section-rule"></div>
+
+  <div class="callout">
+    <div class="callout-label">Definition</div>
+    <p>The <strong>Mode</strong> is the value that occurs <em>most frequently</em> in a data set. It is the most common value. A data set can have:</p>
+  </div>
+
+  <div class="avg-grid">
+    <div class="avg-card">
+      <div class="avg-name" style="color:var(--accent);">No Mode</div>
+      <div class="avg-desc">When all values occur with equal frequency (e.g., 2, 3, 4, 5 — each appears once)</div>
+    </div>
+    <div class="avg-card">
+      <div class="avg-name" style="color:var(--teal);">Unimodal</div>
+      <div class="avg-desc">One mode — one value occurs more than all others</div>
+    </div>
+    <div class="avg-card">
+      <div class="avg-name" style="color:var(--purple);">Bimodal</div>
+      <div class="avg-desc">Two modes — two values tie for highest frequency</div>
+    </div>
+    <div class="avg-card">
+      <div class="avg-name" style="color:var(--gold);">Multimodal</div>
+      <div class="avg-desc">More than two modes — three or more values tie</div>
+    </div>
+  </div>
+
+  <h3>Mode for Ungrouped Data</h3>
+  <p>Simply find the value that appears most often. For the assistants data (Example 3.12), x=4 has frequency 10 — highest — so <strong>Mode = 4</strong>.</p>
+
+  <h3>Mode for Grouped Data (Modal Class Formula)</h3>
+  <p>The <strong>Modal Class</strong> is the class with the highest frequency. The mode lies within this class.</p>
+
+  <div class="formula">Mode = l + [f_m − f₁ / (f_m − f₁) + (f_m − f₂)] × h<small>l = lower boundary of modal class, fₘ = frequency of modal class, f₁ = frequency of class before modal class, f₂ = frequency of class after modal class, h = class width</small></div>
+
+  <div class="callout gold">
+    <div class="callout-label">Alternative Formula (Simpler)</div>
+    <div class="formula" style="margin:8px 0; font-size:15px;">Mode = l + [f₂ / (f₁ + f₂)] × h</div>
+    <p style="margin:0; font-size:14px;">where f₁ = (fₘ − f_before) and f₂ = (fₘ − f_after)</p>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-title"><span class="ex-num">Example 3.14</span> From the Book — Mode of Examination Marks</div>
+    <p>Modal class = 59.5 – 69.5 (highest frequency = 304)</p>
+    <p>l = 59.5, fₘ = 304, f₁ = 190 (before), f₂ = 211 (after), h = 10</p>
+    <div class="answer-block">
+      <div class="ans-label">Solution</div>
+      <p>Mode = l + [(fₘ − f₁) / (fₘ − f₁) + (fₘ − f₂)] × h<br>
+      = 59.5 + [(304 − 190) / (304 − 190) + (304 − 211)] × 10<br>
+      = 59.5 + [114 / (114 + 93)] × 10<br>
+      = 59.5 + [114/207] × 10<br>
+      = 59.5 + 5.5 = <strong>65.3 ≈ 65 marks</strong></p>
+    </div>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-title"><span class="ex-num">Practice</span> Find the Mode</div>
+    <p>Frequency distribution: 20–29 (f=3), 30–39 (f=8), 40–49 (f=15, modal), 50–59 (f=10), 60–69 (f=4)</p>
+    <div class="answer-block">
+      <div class="ans-label">Solution</div>
+      <p>Modal class = 40–49. l = 39.5, fₘ = 15, f₁ = 8, f₂ = 10, h = 10<br>
+      Mode = 39.5 + [(15−8) / (15−8)+(15−10)] × 10<br>
+      = 39.5 + [7 / (7+5)] × 10<br>
+      = 39.5 + 5.83 = <strong>45.33</strong></p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 14 — EMPIRICAL RELATION -->
+<div class="section" id="s14">
+  <p class="section-label">Section 3.9</p>
+  <h2>Empirical Relation between Mean, Median and Mode</h2>
+  <div class="section-rule"></div>
+
+  <p>For a <strong>unimodal, moderately skewed</strong> distribution, Karl Pearson found an approximate relationship between the three averages:</p>
+
+  <div class="formula">Mean − Mode ≈ 3(Mean − Median)<small>Rearranged: Mode ≈ 3 × Median − 2 × Mean</small></div>
+
+  <div class="skew-visual">
+    <div class="skew-box">
+      <div class="skew-label" style="color:var(--teal);">Symmetrical</div>
+      <div class="skew-bar" style="background: linear-gradient(to right, var(--teal-light), var(--teal), var(--teal-light));"></div>
+      <div class="skew-relation">Mean = Median = Mode</div>
+    </div>
+    <div class="skew-box">
+      <div class="skew-label" style="color:var(--accent);">Positively Skewed (Right)</div>
+      <div class="skew-bar" style="background: linear-gradient(to right, var(--accent), var(--accent-light), transparent);"></div>
+      <div class="skew-relation">Mode &lt; Median &lt; Mean</div>
+    </div>
+    <div class="skew-box">
+      <div class="skew-label" style="color:var(--red);">Negatively Skewed (Left)</div>
+      <div class="skew-bar" style="background: linear-gradient(to right, transparent, var(--red-light), var(--red));"></div>
+      <div class="skew-relation">Mean &lt; Median &lt; Mode</div>
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <div class="callout-label">Memory Trick — Skewness Direction</div>
+    <p><strong>Positive Skew (Right tail):</strong> Extreme HIGH values pull the Mean to the right. Mean is "pulled away" from Mode. Order: Mode → Median → Mean (left to right).<br><br>
+    <strong>Negative Skew (Left tail):</strong> Extreme LOW values pull the Mean to the left. Order: Mean → Median → Mode (left to right).</p>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-title"><span class="ex-num">Classic Exam Question</span> Find Mode using Empirical Relation</div>
+    <p>For a frequency distribution, the mean = 40.5 and the median = 36. Find the mode.</p>
+    <div class="answer-block">
+      <div class="ans-label">Solution</div>
+      <p>Mode = 3 × Median − 2 × Mean<br>
+      Mode = 3 × 36 − 2 × 40.5<br>
+      Mode = 108 − 81 = <strong>27</strong></p>
+    </div>
+  </div>
+
+  <div class="example-box">
+    <div class="ex-title"><span class="ex-num">Practice</span> Using Empirical Relation</div>
+    <p>Given: Mean = 50, Mode = 44. Find the Median.</p>
+    <div class="answer-block">
+      <div class="ans-label">Solution</div>
+      <p>Mean − Mode = 3(Mean − Median)<br>
+      50 − 44 = 3(50 − Median)<br>
+      6 = 150 − 3 × Median<br>
+      3 × Median = 144<br>
+      Median = <strong>48</strong></p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 15 — BOX PLOTS -->
+<div class="section" id="s15">
+  <p class="section-label">Section 3.10</p>
+  <h2>Box Plots (Box and Whisker Plots)</h2>
+  <div class="section-rule"></div>
+
+  <div class="callout">
+    <div class="callout-label">What is a Box Plot?</div>
+    <p>A <strong>Box Plot</strong> is a simple graphical tool that summarizes the distribution of a data set using 5 key values: Minimum, Q₁, Median, Q₃, and Maximum. It shows centre, spread, and skewness at a glance.</p>
+  </div>
+
+  <h3>Parts of a Box Plot</h3>
+
+  <div class="box-plot-visual">
+    <p style="font-size:13px; color:var(--ink-muted); margin-bottom:12px;">Schematic Box Plot for Example 3.13 (Exam Marks)</p>
+    <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--ink-muted); margin-bottom:4px;">
+      <span>Min</span><span>Q₁ = 56</span><span>Median = 65</span><span>Q₃ = 74</span><span>Max</span>
+    </div>
+    <div class="bp-track">
+      <div class="bp-box" style="left:25%; width:25%;"></div>
+      <div class="bp-median" style="left:40%;"></div>
+    </div>
+    <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--ink-muted); margin-top:4px; padding: 0 0;">
+      <span>← Whisker →</span><span>← Box (IQR) →</span><span>← Whisker →</span>
+    </div>
+  </div>
+
+  <div class="avg-grid">
+    <div class="avg-card">
+      <div class="avg-name" style="color:var(--accent);">Box</div>
+      <div class="avg-desc">Rectangle from Q₁ to Q₃. Shows the middle 50% of data (IQR = Q₃ − Q₁).</div>
+    </div>
+    <div class="avg-card">
+      <div class="avg-name" style="color:var(--teal);">Median Line</div>
+      <div class="avg-desc">A line inside the box at the Median. Shows the center of the data.</div>
+    </div>
+    <div class="avg-card">
+      <div class="avg-name" style="color:var(--purple);">Whiskers</div>
+      <div class="avg-desc">Lines extending from the box to the minimum and maximum values.</div>
+    </div>
+    <div class="avg-card">
+      <div class="avg-name" style="color:var(--gold);">Interpreting Skew</div>
+      <div class="avg-desc">If one whisker is longer → distribution is skewed in that direction.</div>
+    </div>
+  </div>
+
+  <div class="callout teal">
+    <div class="callout-label">Why Use Box Plots?</div>
+    <p>Box plots are especially useful for <strong>comparing two or more distributions</strong> side by side. They immediately reveal the median, spread (IQR), and whether the data is symmetric or skewed.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 16 — MERITS AND DEMERITS -->
+<div class="section" id="s16">
+  <p class="section-label">Section 3.11</p>
+  <h2>Merits &amp; Demerits of Each Average</h2>
+  <div class="section-rule"></div>
+
+  <table class="merit-table">
+    <thead>
+      <tr>
+        <th>Average</th>
+        <th class="merit">Merits (Advantages)</th>
+        <th class="demerit">Demerits (Disadvantages)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Arithmetic Mean</td>
+        <td class="merit-col">✔ Rigidly defined<br>✔ Based on ALL observations<br>✔ Easy to compute and understand<br>✔ Amenable to math treatment<br>✔ Stable in sampling</td>
+        <td class="demerit-col">✘ Greatly affected by extreme values<br>✘ Can give misleading results<br>✘ Not suitable for heavily skewed distributions<br>✘ Cannot be computed for open-end classes</td>
+      </tr>
+      <tr>
+        <td>Geometric Mean</td>
+        <td class="merit-col">✔ Rigidly defined<br>✔ Based on all observations<br>✔ Not much affected by sampling<br>✔ Best for averaging ratios and rates</td>
+        <td class="demerit-col">✘ Difficult to compute and understand<br>✘ Cannot be used if any value is zero<br>✘ Cannot be computed if any value is negative</td>
+      </tr>
+      <tr>
+        <td>Harmonic Mean</td>
+        <td class="merit-col">✔ Rigidly defined<br>✔ Based on all observations<br>✔ Amenable to math treatment<br>✔ Best for averaging rates and speeds</td>
+        <td class="demerit-col">✘ Difficult to understand<br>✘ Cannot be computed if any value is zero<br>✘ Gives too much weight to small observations</td>
+      </tr>
+      <tr>
+        <td>Median</td>
+        <td class="merit-col">✔ Easy to calculate and understand<br>✔ Not affected by extreme values<br>✔ Can be located even for qualitative data<br>✔ Can handle open-end classes<br>✔ Good for skewed distributions</td>
+        <td class="demerit-col">✘ Not rigidly defined<br>✘ Not amenable to math treatment<br>✘ Requires arranging data in order (tedious)<br>✘ Less stable than the mean</td>
+      </tr>
+      <tr>
+        <td>Mode</td>
+        <td class="merit-col">✔ Easy to understand and calculate<br>✔ Not affected by extreme values<br>✔ Can be found for qualitative data<br>✔ Useful for nominal/ordinal data</td>
+        <td class="demerit-col">✘ Not rigidly defined<br>✘ Often indeterminate (may not exist)<br>✘ Not based on all observations<br>✘ Not amenable to math treatment<br>✘ May not exist for small datasets</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout gold">
+    <div class="callout-label">When to Use Which Average</div>
+    <p>
+      <strong>Use Mean:</strong> When data is symmetric and has no extreme values. Most common choice.<br>
+      <strong>Use Median:</strong> When data has extreme values (skewed), or has open-end classes.<br>
+      <strong>Use Mode:</strong> When you want the most typical/popular value (e.g., most popular shoe size).<br>
+      <strong>Use GM:</strong> When averaging ratios, rates, or percentages (e.g., economic growth rates).<br>
+      <strong>Use HM:</strong> When averaging speeds over equal distances, or rates over constant quantity.
+    </p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- QUICK REFERENCE TABLE -->
+<div class="section">
+  <h2>All Formulas at a Glance</h2>
+  <div class="section-rule"></div>
+
+  <table class="data-table">
+    <thead><tr><th>Average</th><th>Ungrouped Data</th><th>Grouped Data</th><th>Change of Origin & Scale</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="highlight">Arithmetic Mean</td>
+        <td>x̄ = Σx / n</td>
+        <td>x̄ = Σ(fx) / n</td>
+        <td>x̄ = a + h·(Σfu / n)<br><small>u = (x−a)/h</small></td>
+      </tr>
+      <tr>
+        <td class="highlight">Geometric Mean</td>
+        <td>G = anti-log(Σ log x / n)</td>
+        <td>G = anti-log(Σ f·log x / n)</td>
+        <td>Not commonly used</td>
+      </tr>
+      <tr>
+        <td class="highlight">Harmonic Mean</td>
+        <td>H = n / Σ(1/x)</td>
+        <td>H = n / Σ(f/x)</td>
+        <td>Not commonly used</td>
+      </tr>
+      <tr>
+        <td class="highlight">Median</td>
+        <td>Middle value of ordered data</td>
+        <td>M = l + (h/f)(n/2 − C)</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td class="highlight">Mode</td>
+        <td>Most frequent value</td>
+        <td>Mode = l + [(fₘ−f₁)/((fₘ−f₁)+(fₘ−f₂))]×h</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td class="highlight">Q₁ (Quartile)</td>
+        <td>(n/4)th ordered value</td>
+        <td>Q₁ = l + (h/f)(n/4 − C)</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td class="highlight">Q₃ (Quartile)</td>
+        <td>(3n/4)th ordered value</td>
+        <td>Q₃ = l + (h/f)(3n/4 − C)</td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout red">
+    <div class="callout-label">Empirical Relation — Must Memorize</div>
+    <p><strong>Mode = 3 × Median − 2 × Mean</strong><br>
+    <strong>Mean − Mode = 3(Mean − Median)</strong><br>
+    Valid only for unimodal, moderately skewed distributions.</p>
+  </div>
+</div>
+
+<!-- SUMMARY -->
+<div class="section">
+  <div class="summary-box">
+    <h3>Chapter 3 — Quick Summary for Exam</h3>
+    <ul>
+      <li>5 averages: AM, GM, HM, Median, Mode. AM is most common and most mathematically useful.</li>
+      <li>Population mean = μ (Greek, fixed); Sample mean = x̄ (Latin, variable)</li>
+      <li>Σ(xᵢ − x̄) = 0 always (sum of deviations from mean = zero)</li>
+      <li>Combined mean: x̄ = (n₁x̄₁ + n₂x̄₂ + …) / (n₁ + n₂ + …)</li>
+      <li>Grouped data mean: x̄ = Σ(fx) / n using class midpoints</li>
+      <li>Change of Origin & Scale: x̄ = a + h·ū, where u = (x−a)/h (saves calculation effort)</li>
+      <li>GM uses logarithms: log G = (Σ log x)/n; take anti-log to get G</li>
+      <li>HM for equal-distance speed problems: H = n / Σ(1/x)</li>
+      <li>Median: middle value of ordered data; for grouped: l + (h/f)(n/2 − C)</li>
+      <li>Quantiles: Q divides into 4, D into 10, P into 100 equal parts. All use same formula as median with n/4, n/10, etc.</li>
+      <li>Mode: most frequent value; grouped: l + [(fₘ−f₁)/((fₘ−f₁)+(fₘ−f₂))] × h</li>
+      <li>Empirical: Mode = 3×Median − 2×Mean (for moderate skewness)</li>
+      <li>Symmetrical: Mean=Median=Mode | Positive skew: Mode < Median < Mean | Negative skew: Mean < Median < Mode</li>
+      <li>Box plot uses: Min, Q₁, Median, Q₃, Max. Longer whisker → skewed in that direction.</li>
+      <li>AM ≥ GM ≥ HM (always, for positive numbers; equality when all values are equal)</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

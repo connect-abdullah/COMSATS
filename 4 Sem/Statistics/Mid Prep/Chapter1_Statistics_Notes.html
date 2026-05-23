@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 1 – Introduction to Statistics</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1410;
+    --ink-light: #4a3f35;
+    --ink-muted: #8a7d72;
+    --paper: #fdf8f2;
+    --paper-warm: #f7f0e6;
+    --paper-card: #fff9f3;
+    --accent: #b5410a;
+    --accent-light: #e8c4b3;
+    --accent-pale: #fdf0ea;
+    --teal: #0a7a6b;
+    --teal-light: #b3ddd7;
+    --teal-pale: #eaf6f4;
+    --gold: #9a6d00;
+    --gold-light: #f5e0a0;
+    --gold-pale: #fdf8e8;
+    --purple: #5a3e9a;
+    --purple-light: #d4c8f0;
+    --purple-pale: #f2eefc;
+    --border: #e0d4c8;
+    --shadow: rgba(90,60,30,0.08);
+  }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.8;
+    padding: 0;
+  }
+
+  .cover {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 60px 48px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.15;
+  }
+
+  .cover-badge {
+    display: inline-block;
+    border: 1.5px solid var(--accent-light);
+    color: var(--accent-light);
+    font-family: 'Source Serif 4', serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 2px;
+    margin-bottom: 28px;
+  }
+
+  .cover h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    color: #fff;
+  }
+
+  .cover-sub {
+    font-size: 17px;
+    color: #c8bfb5;
+    font-style: italic;
+    margin-bottom: 36px;
+    font-weight: 300;
+  }
+
+  .cover-meta {
+    display: flex; gap: 32px; flex-wrap: wrap;
+  }
+
+  .cover-meta-item {
+    font-size: 13px;
+    color: #9a8f85;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .cover-meta-item strong {
+    display: block;
+    font-size: 15px;
+    color: #ddd4c8;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-top: 2px;
+  }
+
+  .toc {
+    background: var(--paper-warm);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 48px;
+  }
+
+  .toc h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 16px;
+    font-weight: 700;
+  }
+
+  .toc-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 8px 32px;
+  }
+
+  .toc-list li a {
+    text-decoration: none;
+    color: var(--accent);
+    font-size: 14px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .toc-list li a::before {
+    content: attr(data-num);
+    font-size: 11px;
+    color: var(--ink-muted);
+    font-family: 'Source Serif 4', serif;
+    min-width: 20px;
+  }
+
+  .content {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 48px 80px;
+  }
+
+  .section {
+    padding-top: 56px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 8px;
+    font-family: 'Source Serif 4', serif;
+  }
+
+  .section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+
+  .section-rule {
+    height: 2px;
+    background: linear-gradient(to right, var(--accent), transparent);
+    margin-bottom: 28px;
+    border-radius: 1px;
+  }
+
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 36px 0 12px;
+  }
+
+  h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink-light);
+    margin: 24px 0 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: 'Source Serif 4', serif;
+  }
+
+  p { margin-bottom: 14px; }
+
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: var(--accent-pale);
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin: 20px 0;
+  }
+
+  .callout.teal {
+    border-left-color: var(--teal);
+    background: var(--teal-pale);
+  }
+
+  .callout.gold {
+    border-left-color: var(--gold);
+    background: var(--gold-pale);
+  }
+
+  .callout.purple {
+    border-left-color: var(--purple);
+    background: var(--purple-pale);
+  }
+
+  .callout-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-family: 'Source Serif 4', serif;
+  }
+
+  .callout.teal .callout-label { color: var(--teal); }
+  .callout.gold .callout-label { color: var(--gold); }
+  .callout.purple .callout-label { color: var(--purple); }
+
+  .callout p { margin-bottom: 0; }
+
+  .example-box {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin: 24px 0;
+  }
+
+  .example-box .ex-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ex-num {
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Source Serif 4', serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 0;
+  }
+
+  .answer-block {
+    background: var(--teal-pale);
+    border: 1px solid var(--teal-light);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-top: 16px;
+  }
+
+  .answer-block .ans-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--teal);
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-family: 'Source Serif 4', serif;
+  }
+
+  .answer-block p { margin-bottom: 0; }
+
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+
+  .compare-card {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+
+  .compare-card.left { border-top: 3px solid var(--accent); }
+  .compare-card.right { border-top: 3px solid var(--teal); }
+
+  .compare-card h5 {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+
+  .compare-card.left h5 { color: var(--accent); }
+  .compare-card.right h5 { color: var(--teal); }
+
+  .compare-card ul {
+    list-style: none;
+    font-size: 14px;
+    color: var(--ink-light);
+  }
+
+  .compare-card ul li {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .compare-card ul li::before {
+    content: '→';
+    color: var(--ink-muted);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .compare-card ul li:last-child { border-bottom: none; }
+
+  .type-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .type-card {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+  }
+
+  .type-card .type-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .type-card .type-desc {
+    font-size: 13px;
+    color: var(--ink-light);
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  .type-card .type-eg {
+    font-size: 12px;
+    color: var(--ink-muted);
+    font-style: italic;
+  }
+
+  .scale-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+  }
+
+  .scale-table th {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10px 14px;
+    text-align: left;
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .scale-table th:first-child { border-radius: 8px 0 0 0; }
+  .scale-table th:last-child { border-radius: 0 8px 0 0; }
+
+  .scale-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--ink-light);
+  }
+
+  .scale-table tr:nth-child(even) td { background: var(--paper-warm); }
+
+  .scale-table td:first-child {
+    font-weight: 600;
+    color: var(--ink);
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    font-family: 'Source Serif 4', serif;
+  }
+
+  .badge-red { background: #fde8e8; color: #922; }
+  .badge-green { background: var(--teal-pale); color: var(--teal); }
+  .badge-gold { background: var(--gold-pale); color: var(--gold); }
+
+  .methods-list {
+    list-style: none;
+    margin: 16px 0;
+  }
+
+  .methods-list li {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .methods-list li:last-child { border-bottom: none; }
+
+  .method-num {
+    background: var(--ink);
+    color: var(--paper);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-family: 'Source Serif 4', serif;
+  }
+
+  .method-content strong {
+    display: block;
+    font-size: 15px;
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 4px;
+  }
+
+  .method-content span {
+    font-size: 14px;
+    color: var(--ink-light);
+  }
+
+  .summary-box {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 12px;
+    padding: 32px 36px;
+    margin: 48px 0 0;
+  }
+
+  .summary-box h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--accent-light);
+    font-size: 18px;
+    margin: 0 0 20px;
+  }
+
+  .summary-box ul {
+    list-style: none;
+  }
+
+  .summary-box ul li {
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-size: 14px;
+    color: #c8bfb5;
+    display: flex;
+    gap: 10px;
+  }
+
+  .summary-box ul li::before {
+    content: '✓';
+    color: var(--accent-light);
+    flex-shrink: 0;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+
+  .formula {
+    background: var(--purple-pale);
+    border: 1px solid var(--purple-light);
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-style: italic;
+    text-align: center;
+    font-size: 17px;
+    color: var(--purple);
+    margin: 16px 0;
+    font-family: 'Playfair Display', serif;
+  }
+
+  @media (max-width: 640px) {
+    .cover, .toc, .content { padding-left: 20px; padding-right: 20px; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .type-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-badge">MTH-262 · Study Notes</div>
+  <h1>Chapter 1<br>Introduction to Statistics</h1>
+  <p class="cover-sub">Introduction to Statistical Theory, Part 1 — Chaudhry & Kamal</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item">Book<strong>ITST Part 1</strong></div>
+    <div class="cover-meta-item">Chapters Covered<strong>4 of 4</strong></div>
+    <div class="cover-meta-item">Level<strong>Beginner Friendly</strong></div>
+  </div>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc">
+  <h2>Contents</h2>
+  <ul class="toc-list">
+    <li><a href="#s1" data-num="1.1">Meaning of Statistics</a></li>
+    <li><a href="#s2" data-num="1.2">Descriptive vs Inferential</a></li>
+    <li><a href="#s3" data-num="1.3">Population vs Sample</a></li>
+    <li><a href="#s4" data-num="1.4">Variables</a></li>
+    <li><a href="#s5" data-num="1.5">Discrete vs Continuous</a></li>
+    <li><a href="#s6" data-num="1.6">Measurement Scales</a></li>
+    <li><a href="#s7" data-num="1.7">Errors of Measurement</a></li>
+    <li><a href="#s8" data-num="1.8">Significant Digits & Rounding</a></li>
+    <li><a href="#s9" data-num="1.9">Collection of Data</a></li>
+    <li><a href="#s10" data-num="1.10">Quick Summary</a></li>
+  </ul>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="content">
+
+  <!-- SECTION 1 -->
+  <div class="section" id="s1">
+    <p class="section-label">Section 1.1</p>
+    <h2>What is Statistics?</h2>
+    <div class="section-rule"></div>
+
+    <p>The word <em>Statistics</em> comes from the Latin word <strong>status</strong>, meaning "political state." Originally, it referred to information useful to the government — like population sizes and army strengths. Today, it has a much broader meaning.</p>
+
+    <div class="callout">
+      <div class="callout-label">Simple Definition</div>
+      <p>Statistics is the science of <strong>collecting, organizing, analyzing, and interpreting data</strong> so we can make better decisions in the face of uncertainty.</p>
+    </div>
+
+    <p>The word "Statistics" is used in three different ways:</p>
+
+    <h4>Three Meanings of the Word "Statistics"</h4>
+
+    <div class="type-grid">
+      <div class="type-card">
+        <div class="type-name" style="color: var(--accent);">① Plural Noun</div>
+        <div class="type-desc">Refers to a set of numerical facts or data.</div>
+        <div class="type-eg">e.g. "Statistics of road accidents in Pakistan"</div>
+      </div>
+      <div class="type-card">
+        <div class="type-name" style="color: var(--teal);">② Singular Noun</div>
+        <div class="type-desc">Refers to the subject/science of dealing with data.</div>
+        <div class="type-eg">e.g. "Statistics is a useful subject."</div>
+      </div>
+      <div class="type-card">
+        <div class="type-name" style="color: var(--purple);">③ Statistic</div>
+        <div class="type-desc">A single number calculated from sample data.</div>
+        <div class="type-eg">e.g. The sample mean is a statistic.</div>
+      </div>
+    </div>
+
+    <h3>Characteristics of Statistics</h3>
+    <p>Statistics has 8 important characteristics to keep in mind:</p>
+
+    <ol style="margin: 12px 0 12px 20px; line-height: 2;">
+      <li>It deals with <strong>groups</strong> of data, not single individuals.</li>
+      <li>It deals with <strong>numerical</strong> information, not opinions alone.</li>
+      <li>It deals with <strong>variability</strong> — no two people or objects are exactly alike.</li>
+      <li>It involves <strong>uncertainty</strong> — that's why we use probability.</li>
+      <li>It only covers things that can be <strong>counted or measured</strong>.</li>
+      <li>Results are <strong>valid on average</strong>, not in every single case.</li>
+      <li>Statistical laws are subject to <strong>random causes</strong>.</li>
+      <li>Results can be <strong>misleading</strong> if data is collected or handled carelessly.</li>
+    </ol>
+
+    <h3>Uses of Statistics</h3>
+    <div class="example-box">
+      <div class="ex-title"><span class="ex-num">Real Life</span> Where is Statistics used?</div>
+      <div class="type-grid">
+        <div class="type-card"><div class="type-name">Government</div><div class="type-desc">Census, economic planning, public health</div></div>
+        <div class="type-card"><div class="type-name">Medicine</div><div class="type-desc">Drug trials, disease rates, hospital data</div></div>
+        <div class="type-card"><div class="type-name">Business</div><div class="type-desc">Sales forecasting, quality control</div></div>
+        <div class="type-card"><div class="type-name">Education</div><div class="type-desc">Exam results, student performance</div></div>
+        <div class="type-card"><div class="type-name">Sports</div><div class="type-desc">Player averages, match predictions</div></div>
+        <div class="type-card"><div class="type-name">Science</div><div class="type-desc">Experiments, research findings</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 2 -->
+  <div class="section" id="s2">
+    <p class="section-label">Section 1.1.3</p>
+    <h2>Descriptive vs Inferential Statistics</h2>
+    <div class="section-rule"></div>
+
+    <p>Statistics is divided into two main branches. Think of it this way:</p>
+
+    <div class="callout gold">
+      <div class="callout-label">Analogy</div>
+      <p><strong>Descriptive</strong> statistics = taking a photo of what exists right now.<br>
+      <strong>Inferential</strong> statistics = using that photo to predict what will happen next.</p>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card left">
+        <h5>Descriptive Statistics</h5>
+        <ul>
+          <li>Summarizes and describes data you already have</li>
+          <li>Uses graphs, tables, averages</li>
+          <li>No predictions or guesses</li>
+          <li>Answers: "What happened?"</li>
+        </ul>
+      </div>
+      <div class="compare-card right">
+        <h5>Inferential Statistics</h5>
+        <ul>
+          <li>Uses sample data to make conclusions about a population</li>
+          <li>Involves probability and estimation</li>
+          <li>Predictions are made with uncertainty</li>
+          <li>Answers: "What will happen?"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-title"><span class="ex-num">Example 1</span> Cricket Player</div>
+      <p><strong>Descriptive:</strong> A cricket player calculates his average score over the last 20 matches.<br>
+      <strong>Inferential:</strong> Based on that average, he estimates his chances of scoring well in the next match.</p>
+      <div class="answer-block">
+        <div class="ans-label">Key Difference</div>
+        <p>Descriptive = looking at the past data you have. Inferential = using past data to draw conclusions about the future or a larger group.</p>
+      </div>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-title"><span class="ex-num">Example 2</span> Grocery Bills</div>
+      <p><strong>Descriptive:</strong> Mrs. Rashid finds her average weekly grocery spend over the past 6 months = Rs. 4,200.<br>
+      <strong>Inferential:</strong> She predicts she will spend approximately Rs. 4,200/week next year as well.</p>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-title"><span class="ex-num">Practice Q</span> Which branch is it?</div>
+      <p>Classify each as Descriptive or Inferential:</p>
+      <ol style="margin: 10px 0 10px 20px; line-height: 2.2;">
+        <li>COMSATS calculates the average CGPA of all current students.</li>
+        <li>A doctor uses data from 200 patients to predict the effectiveness of a new drug on all patients.</li>
+        <li>A teacher records how many students passed the mid-term exam.</li>
+        <li>A company surveys 500 customers to estimate how satisfied all 50,000 customers are.</li>
+      </ol>
+      <div class="answer-block">
+        <div class="ans-label">Answers</div>
+        <p>1. <strong>Descriptive</strong> (summarizing existing data) &nbsp;|&nbsp;
+        2. <strong>Inferential</strong> (predicting for a larger group) &nbsp;|&nbsp;
+        3. <strong>Descriptive</strong> (recording what happened) &nbsp;|&nbsp;
+        4. <strong>Inferential</strong> (using sample to estimate population)</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 3 -->
+  <div class="section" id="s3">
+    <p class="section-label">Section 1.1.4</p>
+    <h2>Population vs Sample</h2>
+    <div class="section-rule"></div>
+
+    <div class="callout teal">
+      <div class="callout-label">Core Concept</div>
+      <p>A <strong>Population</strong> is the <em>entire group</em> you want to study.<br>
+      A <strong>Sample</strong> is a <em>smaller part</em> of that population that you actually collect data from.</p>
+    </div>
+
+    <p>We use a sample because studying an entire population is often too expensive, too slow, or impossible. We collect data from the sample, then use it to draw conclusions about the full population.</p>
+
+    <div class="compare-grid">
+      <div class="compare-card left">
+        <h5>Population</h5>
+        <ul>
+          <li>The whole group of interest</li>
+          <li>Size = N (capital letter)</li>
+          <li>Summary values called <strong>Parameters</strong></li>
+          <li>Represented by Greek letters (μ, σ)</li>
+        </ul>
+      </div>
+      <div class="compare-card right">
+        <h5>Sample</h5>
+        <ul>
+          <li>A subset of the population</li>
+          <li>Size = n (lowercase letter)</li>
+          <li>Summary values called <strong>Statistics</strong></li>
+          <li>Represented by Latin letters (x̄, s)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-title"><span class="ex-num">Example 1.5</span> From the book – Identify population or sample</div>
+      <table style="width:100%; border-collapse:collapse; font-size:14px;">
+        <thead>
+          <tr style="background: var(--paper-warm);">
+            <th style="padding:10px 12px; text-align:left; border-bottom: 1px solid var(--border); font-family: 'Playfair Display', serif;">Statement</th>
+            <th style="padding:10px 12px; text-align:center; border-bottom: 1px solid var(--border); font-family: 'Playfair Display', serif;">Answer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); color: var(--ink-light);">Total absentees of <em>all students</em> in a college last month</td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); text-align:center;"><span class="badge badge-red">Population</span></td>
+          </tr>
+          <tr>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); color: var(--ink-light);">No. of colour TVs owned by <em>all families</em> in Lahore</td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); text-align:center;"><span class="badge badge-red">Population</span></td>
+          </tr>
+          <tr>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); color: var(--ink-light);">Monthly salaries of <em>all employees</em> of a company</td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); text-align:center;"><span class="badge badge-red">Population</span></td>
+          </tr>
+          <tr>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); color: var(--ink-light);">Wheat yield per acre for <em>5 pieces of land</em></td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); text-align:center;"><span class="badge badge-green">Sample</span></td>
+          </tr>
+          <tr>
+            <td style="padding:10px 12px; color: var(--ink-light);">Computers sold last month at <em>all stores</em> in Lahore</td>
+            <td style="padding:10px 12px; text-align:center;"><span class="badge badge-red">Population</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="answer-block" style="margin-top:16px;">
+        <div class="ans-label">Tip to Identify</div>
+        <p>If the statement includes words like <em>"all," "every," "entire"</em> — it's a <strong>Population</strong>. If it mentions only some members (5 pieces, 50 customers, a survey of 200) — it's a <strong>Sample</strong>.</p>
+      </div>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-title"><span class="ex-num">Practice</span> Population or Sample?</div>
+      <ol style="margin: 8px 0 8px 20px; line-height: 2.5; font-size: 15px;">
+        <li>Heights of 30 students selected from COMSATS.</li>
+        <li>Marks of every student in MTH-262 mid-term exam.</li>
+        <li>Blood pressure readings of 50 patients in one ward.</li>
+        <li>Salaries of every government employee in Pakistan.</li>
+      </ol>
+      <div class="answer-block">
+        <div class="ans-label">Answers</div>
+        <p>1. <strong>Sample</strong> &nbsp;|&nbsp; 2. <strong>Population</strong> &nbsp;|&nbsp; 3. <strong>Sample</strong> &nbsp;|&nbsp; 4. <strong>Population</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 4 -->
+  <div class="section" id="s4">
+    <p class="section-label">Section 1.2</p>
+    <h2>Observations &amp; Variables</h2>
+    <div class="section-rule"></div>
+
+    <div class="callout">
+      <div class="callout-label">Definition</div>
+      <p>A <strong>Variable</strong> is any characteristic that <em>varies</em> from one person or object to another. For example, height varies from person to person — so height is a variable.</p>
+    </div>
+
+    <p>Variables are classified into two main types:</p>
+
+    <div class="compare-grid">
+      <div class="compare-card left">
+        <h5>Quantitative Variable</h5>
+        <ul>
+          <li>Can be expressed as a number</li>
+          <li>Can be measured or counted</li>
+          <li>Examples: age, weight, income, number of children</li>
+        </ul>
+      </div>
+      <div class="compare-card right">
+        <h5>Qualitative Variable (Attribute)</h5>
+        <ul>
+          <li>Cannot be expressed as a number</li>
+          <li>Describes a quality or category</li>
+          <li>Examples: gender, eye colour, religion, education</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout gold">
+      <div class="callout-label">Memory Trick</div>
+      <p><strong>Quantitative</strong> = <em>Quantity</em> (a number you can measure).<br>
+      <strong>Qualitative</strong> = <em>Quality</em> (a category or description).</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 5 -->
+  <div class="section" id="s5">
+    <p class="section-label">Section 1.2.2</p>
+    <h2>Discrete vs Continuous Variables</h2>
+    <div class="section-rule"></div>
+
+    <p>Quantitative variables are further divided into <strong>Discrete</strong> and <strong>Continuous</strong>.</p>
+
+    <div class="compare-grid">
+      <div class="compare-card left">
+        <h5>Discrete Variable</h5>
+        <ul>
+          <li>Can only take <strong>whole number</strong> values</li>
+          <li>Values are counted, not measured</li>
+          <li>There are "gaps" between possible values</li>
+          <li>Example: you can have 2 or 3 children, never 2.5</li>
+        </ul>
+      </div>
+      <div class="compare-card right">
+        <h5>Continuous Variable</h5>
+        <ul>
+          <li>Can take <strong>any value</strong> in a range — including fractions</li>
+          <li>Values are measured, not counted</li>
+          <li>No gaps — infinite possible values between any two points</li>
+          <li>Example: weight could be 60.1, 60.15, 60.152 kg</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout gold">
+      <div class="callout-label">Simple Rule</div>
+      <p>Ask yourself: <em>"Does it make sense to have a fraction of this?"</em><br>
+      <strong>No</strong> → Discrete (you can't have 2.5 accidents)<br>
+      <strong>Yes</strong> → Continuous (you can weigh 65.7 kg)</p>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-title"><span class="ex-num">Example 1.6</span> From the Book – Classify each variable</div>
+      <table style="width:100%; border-collapse:collapse; font-size:14px;">
+        <thead>
+          <tr style="background: var(--paper-warm);">
+            <th style="padding:10px 12px; text-align:left; border-bottom: 1px solid var(--border); font-family: 'Playfair Display', serif;">Variable</th>
+            <th style="padding:10px 12px; text-align:center; border-bottom: 1px solid var(--border); font-family: 'Playfair Display', serif;">Type</th>
+            <th style="padding:10px 12px; text-align:left; border-bottom: 1px solid var(--border); font-family: 'Playfair Display', serif;">Why?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); color: var(--ink-light);">Hair colour of children</td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); text-align:center;"><span class="badge badge-gold">Attribute</span></td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); color: var(--ink-muted); font-size:13px;">Non-numerical, a category</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); color: var(--ink-light);">Time for a wound to heal</td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); text-align:center;"><span class="badge badge-green">Continuous</span></td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); color: var(--ink-muted); font-size:13px;">Can be 3.5 days, 3.57 days, etc.</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); color: var(--ink-light);">Phone calls per hour at a switchboard</td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); text-align:center;"><span class="badge badge-red">Discrete</span></td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); color: var(--ink-muted); font-size:13px;">Must be a whole number — 12, 13 calls, not 12.4</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); color: var(--ink-light);">Breaking strength of a string</td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); text-align:center;"><span class="badge badge-green">Continuous</span></td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); color: var(--ink-muted); font-size:13px;">Measured — can be any value</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); color: var(--ink-light);">Questions answered correctly on a test</td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); text-align:center;"><span class="badge badge-red">Discrete</span></td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); color: var(--ink-muted); font-size:13px;">Can't answer 7.3 questions</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); color: var(--ink-light);">Eye colour</td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); text-align:center;"><span class="badge badge-gold">Attribute</span></td>
+            <td style="padding:10px 12px; border-bottom:1px solid var(--border); color: var(--ink-muted); font-size:13px;">Non-numerical category</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 12px; color: var(--ink-light);">Number of children in your family</td>
+            <td style="padding:10px 12px; text-align:center;"><span class="badge badge-red">Discrete</span></td>
+            <td style="padding:10px 12px; color: var(--ink-muted); font-size:13px;">Counted — always a whole number</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-title"><span class="ex-num">Practice</span> Classify these variables</div>
+      <ol style="margin:8px 0 8px 20px; line-height:2.5; font-size:15px;">
+        <li>Number of students attending class today</li>
+        <li>Weight of a college student</li>
+        <li>Nationality of a person</li>
+        <li>Temperature recorded every hour</li>
+        <li>Number of goals scored in a football match</li>
+      </ol>
+      <div class="answer-block">
+        <div class="ans-label">Answers</div>
+        <p>1. <strong>Discrete</strong> &nbsp;|&nbsp; 2. <strong>Continuous</strong> &nbsp;|&nbsp; 3. <strong>Attribute</strong> &nbsp;|&nbsp; 4. <strong>Continuous</strong> &nbsp;|&nbsp; 5. <strong>Discrete</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 6 -->
+  <div class="section" id="s6">
+    <p class="section-label">Section 1.2.3</p>
+    <h2>Measurement Scales</h2>
+    <div class="section-rule"></div>
+
+    <p>When we collect data, we assign numbers to observations. <strong>Measurement scales</strong> tell us exactly how meaningful those numbers are. There are 4 scales, from lowest to highest level of information:</p>
+
+    <table class="scale-table">
+      <thead>
+        <tr>
+          <th>Scale</th>
+          <th>What it does</th>
+          <th>Key feature</th>
+          <th>Examples</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Nominal</td>
+          <td>Groups things into categories. Numbers are just labels — they have NO mathematical meaning.</td>
+          <td>No order between categories</td>
+          <td>Gender (1=Male, 2=Female), Eye colour, Religion, Nationality</td>
+        </tr>
+        <tr>
+          <td>Ordinal</td>
+          <td>Categories can be <strong>ranked</strong> or ordered, but the gap between ranks is NOT equal.</td>
+          <td>Ordering exists, but gaps are unequal</td>
+          <td>Grades (A, B, C), Performance (Excellent/Good/Poor), Cricket ranking</td>
+        </tr>
+        <tr>
+          <td>Interval</td>
+          <td>Equal gaps between values. But <strong>no true zero</strong> — zero doesn't mean "nothing."</td>
+          <td>Equal intervals, no true zero</td>
+          <td>Temperature (°C, °F), IQ score, SAT scores</td>
+        </tr>
+        <tr>
+          <td>Ratio</td>
+          <td>Equal gaps AND a <strong>true zero</strong> (zero means "nothing exists"). Ratios are meaningful.</td>
+          <td>Equal intervals + true zero</td>
+          <td>Height, Weight, Age, Salary, Distance, Time</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout gold">
+      <div class="callout-label">Classic Example — Why Interval has no True Zero</div>
+      <p>Temperature 0°C does NOT mean there is no temperature — it's just a reference point. That's why you <em>cannot</em> say "40°C is twice as hot as 20°C."<br><br>
+      But weight 0 kg truly means no weight — so you CAN say "80 kg is twice as heavy as 40 kg." That's Ratio scale.</p>
+    </div>
+
+    <div class="callout purple">
+      <div class="callout-label">Memory Trick — NOIR</div>
+      <p>Remember the order with <strong>NOIR</strong>:<br>
+      <strong>N</strong>ominal → <strong>O</strong>rdinal → <strong>I</strong>nterval → <strong>R</strong>atio<br>
+      Each level <em>includes all the features of the levels below it</em>.</p>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-title"><span class="ex-num">Practice</span> Identify the measurement scale</div>
+      <ol style="margin:8px 0 8px 20px; line-height:2.5; font-size:15px;">
+        <li>Weights of cars</li>
+        <li>Rankings of squash players (1st, 2nd, 3rd)</li>
+        <li>Temperature of a city</li>
+        <li>Marital status (Single, Married, Divorced)</li>
+        <li>Salary of top 5 executives</li>
+        <li>Rating of performance (Poor, Fair, Good, Excellent)</li>
+        <li>IQ of a student</li>
+      </ol>
+      <div class="answer-block">
+        <div class="ans-label">Answers</div>
+        <p>
+          1. <strong>Ratio</strong> (true zero — 0 kg means no weight) &nbsp;|&nbsp;
+          2. <strong>Ordinal</strong> (ranked, but gap between ranks isn't equal) &nbsp;|&nbsp;
+          3. <strong>Interval</strong> (equal gaps, but 0°C ≠ no temperature) &nbsp;|&nbsp;
+          4. <strong>Nominal</strong> (categories with no meaningful order) &nbsp;|&nbsp;
+          5. <strong>Ratio</strong> (salary of 0 = no salary) &nbsp;|&nbsp;
+          6. <strong>Ordinal</strong> (ordered categories) &nbsp;|&nbsp;
+          7. <strong>Interval</strong> (IQ 0 doesn't mean zero intelligence — it's a scale)
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 7 -->
+  <div class="section" id="s7">
+    <p class="section-label">Section 1.2.4</p>
+    <h2>Errors of Measurement</h2>
+    <div class="section-rule"></div>
+
+    <p>In real life, we can <em>never</em> measure a continuous variable with perfect accuracy. There is always a small difference between the measured value and the true value. This difference is called an <strong>error of measurement</strong>.</p>
+
+    <div class="callout">
+      <div class="callout-label">Note</div>
+      <p>In statistics, an "error" does not mean a <em>mistake</em>. It simply means a chance inaccuracy that is unavoidable during measurement.</p>
+    </div>
+
+    <h3>Types of Errors</h3>
+
+    <div class="compare-grid">
+      <div class="compare-card left">
+        <h5>Biased (Systematic) Error</h5>
+        <ul>
+          <li>Observed value is consistently higher or lower than the true value</li>
+          <li>Caused by faulty instruments, personal bias</li>
+          <li>Does NOT cancel out — errors accumulate</li>
+          <li>Also called: Cumulative Errors</li>
+        </ul>
+      </div>
+      <div class="compare-card right">
+        <h5>Unbiased (Random) Error</h5>
+        <ul>
+          <li>Observations sometimes higher, sometimes lower than true value</li>
+          <li>Occur equally in both directions — tend to cancel out</li>
+          <li>Reduced by repeating measurements</li>
+          <li>Also called: Accidental / Compensating Errors</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Types of Error Values</h3>
+
+    <div class="formula">Absolute Error = Measured Value − True Value = ε</div>
+
+    <div class="formula">Relative Error = Absolute Error ÷ True Value = ε / (x + ε)</div>
+
+    <div class="formula">Percentage Error = Relative Error × 100</div>
+
+    <div class="example-box">
+      <div class="ex-title"><span class="ex-num">Example</span> Understanding Error</div>
+      <p>A student's weight is <strong>recorded as 60 kg</strong> (to the nearest kg).</p>
+      <p>This means the <strong>true weight lies between 59.5 and 60.5 kg</strong>.</p>
+      <p>If the weight is recorded as <strong>60.00 kg</strong> (to nearest 0.01 kg), then the true weight lies between 59.995 and 60.005 kg — much more precise!</p>
+      <div class="answer-block">
+        <div class="ans-label">Takeaway</div>
+        <p>The more decimal places in your measurement, the smaller the possible error range, and the higher the accuracy.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 8 -->
+  <div class="section" id="s8">
+    <p class="section-label">Section 1.2.5 – 1.2.6</p>
+    <h2>Significant Digits &amp; Rounding</h2>
+    <div class="section-rule"></div>
+
+    <div class="callout teal">
+      <div class="callout-label">Definition</div>
+      <p><strong>Significant digits</strong> are the digits in a number that carry meaningful, accurate information. They show how precise a measurement actually is.</p>
+    </div>
+
+    <h3>Rules for Significant Digits</h3>
+
+    <ul class="methods-list">
+      <li>
+        <div class="method-num">1</div>
+        <div class="method-content">
+          <strong>All non-zero digits are significant</strong>
+          <span>e.g. 35 has 2 sig. digits; 2.145 has 4 sig. digits</span>
+        </div>
+      </li>
+      <li>
+        <div class="method-num">2</div>
+        <div class="method-content">
+          <strong>Zeros after decimal point at the END are significant</strong>
+          <span>e.g. 2.500 has 4 sig. digits (the trailing zeros matter)</span>
+        </div>
+      </li>
+      <li>
+        <div class="method-num">3</div>
+        <div class="method-content">
+          <strong>Zeros after decimal point at the BEGINNING are NOT significant</strong>
+          <span>e.g. 0.04 has 1 sig. digit; 0.000237 has 3 sig. digits</span>
+        </div>
+      </li>
+      <li>
+        <div class="method-num">4</div>
+        <div class="method-content">
+          <strong>Zeros within a number (between non-zero digits) are significant</strong>
+          <span>e.g. 20.3 has 3; 1001 has 4; 4.00507 has 6 sig. digits</span>
+        </div>
+      </li>
+      <li>
+        <div class="method-num">5</div>
+        <div class="method-content">
+          <strong>Zeros at the end of whole numbers — ambiguous (use standard notation)</strong>
+          <span>e.g. 75400 — could have 3, 4, or 5 sig. digits. Write as 7.54 × 10⁴ (3 sig. digits) or 7.5400 × 10⁴ (5 sig. digits) to be clear.</span>
+        </div>
+      </li>
+    </ul>
+
+    <h3>Rules for Rounding Off</h3>
+
+    <div class="example-box">
+      <div class="ex-title"><span class="ex-num">3 Rules</span> How to round a number</div>
+
+      <div class="callout" style="margin-bottom:12px;">
+        <div class="callout-label">Rule 1 — First dropped digit &gt; 5 (or 5 followed by non-zero digits)</div>
+        <p>Round UP the last kept digit.<br>
+        e.g. 5.3772 rounded to 3 sig. digits → <strong>5.38</strong> (because 7 &gt; 5)</p>
+      </div>
+
+      <div class="callout teal" style="margin-bottom:12px;">
+        <div class="callout-label">Rule 2 — First dropped digit &lt; 5</div>
+        <p>Keep the last digit unchanged.<br>
+        e.g. 2.1548 rounded to 3 sig. digits → <strong>2.15</strong> (because 4 &lt; 5)</p>
+      </div>
+
+      <div class="callout gold">
+        <div class="callout-label">Rule 3 — First dropped digit is exactly 5</div>
+        <p>If the last kept digit is <strong>odd</strong> → round up. If <strong>even</strong> → leave unchanged.<br>
+        e.g. 4.535 → last kept digit 3 is odd → <strong>4.54</strong><br>
+        e.g. 2.745 → last kept digit 4 is even → <strong>2.74</strong></p>
+      </div>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-title"><span class="ex-num">Practice</span> Round to 4 significant digits</div>
+      <ol style="margin:8px 0 8px 20px; line-height:2.5; font-size:15px;">
+        <li>32.21705</li>
+        <li>937.05002</li>
+        <li>0.003599499</li>
+        <li>0.07000455</li>
+      </ol>
+      <div class="answer-block">
+        <div class="ans-label">Answers</div>
+        <p>
+          1. <strong>32.22</strong> (5th digit is 7 &gt; 5, round up) &nbsp;|&nbsp;
+          2. <strong>937.1</strong> (5th digit is 5, 4th digit 0 is even → round up) &nbsp;|&nbsp;
+          3. <strong>0.003599</strong> (4 sig. digits after leading zeros) &nbsp;|&nbsp;
+          4. <strong>0.07000</strong> (the zeros after 7 are significant once you have 4 sig. digits)
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 9 -->
+  <div class="section" id="s9">
+    <p class="section-label">Section 1.3</p>
+    <h2>Collection of Data</h2>
+    <div class="section-rule"></div>
+
+    <div class="compare-grid">
+      <div class="compare-card left">
+        <h5>Primary Data</h5>
+        <ul>
+          <li>Originally collected by the researcher themselves</li>
+          <li>Raw, unprocessed data — first-hand</li>
+          <li>More accurate but expensive and time-consuming</li>
+          <li>Example: conducting a survey yourself</li>
+        </ul>
+      </div>
+      <div class="compare-card right">
+        <h5>Secondary Data</h5>
+        <ul>
+          <li>Data already collected by someone else</li>
+          <li>Has been processed or published before</li>
+          <li>Cheaper and faster, but may be less accurate for your purpose</li>
+          <li>Example: using PBS (Pakistan Bureau of Statistics) reports</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Methods of Collecting Primary Data</h3>
+
+    <ul class="methods-list">
+      <li>
+        <div class="method-num">1</div>
+        <div class="method-content">
+          <strong>Direct Personal Investigation</strong>
+          <span>Investigator collects data personally by interviewing individuals. Very accurate but costly and slow for large areas.</span>
+        </div>
+      </li>
+      <li>
+        <div class="method-num">2</div>
+        <div class="method-content">
+          <strong>Indirect Investigation / Personal Interviews</strong>
+          <span>Third parties or witnesses are interviewed when direct sources don't exist or are reluctant to respond. Useful for complex information.</span>
+        </div>
+      </li>
+      <li>
+        <div class="method-num">3</div>
+        <div class="method-content">
+          <strong>Collection through Questionnaires</strong>
+          <span>Printed forms sent by mail. Cheap and good for large surveys, but many respondents don't return them. Questions must be simple, short, and clear.</span>
+        </div>
+      </li>
+      <li>
+        <div class="method-num">4</div>
+        <div class="method-content">
+          <strong>Collection through Enumerators</strong>
+          <span>Trained enumerators help fill in forms on behalf of respondents. Most reliable method for large government surveys.</span>
+        </div>
+      </li>
+      <li>
+        <div class="method-num">5</div>
+        <div class="method-content">
+          <strong>Collection through Local Sources</strong>
+          <span>Local agents collect and send data using their own judgment. Cheap and fast but gives only estimates.</span>
+        </div>
+      </li>
+      <li>
+        <div class="method-num">6</div>
+        <div class="method-content">
+          <strong>Computer Interviews</strong>
+          <span>Respondents directly enter data into a computer in response to questions on a screen. Modern and increasingly common.</span>
+        </div>
+      </li>
+    </ul>
+
+    <h3>Sources of Secondary Data</h3>
+
+    <div class="type-grid">
+      <div class="type-card">
+        <div class="type-name" style="color:var(--accent);">Internal</div>
+        <div class="type-desc">Data from within the organization itself</div>
+        <div class="type-eg">Sales reports, accounting records, invoices</div>
+      </div>
+      <div class="type-card">
+        <div class="type-name" style="color:var(--teal);">Official</div>
+        <div class="type-desc">Government publications</div>
+        <div class="type-eg">PBS, Ministry of Finance, Federal Bureau of Statistics</div>
+      </div>
+      <div class="type-card">
+        <div class="type-name" style="color:var(--purple);">Semi-Official</div>
+        <div class="type-desc">Public institutions</div>
+        <div class="type-eg">State Bank of Pakistan, Railway Board</div>
+      </div>
+      <div class="type-card">
+        <div class="type-name" style="color:var(--gold);">Research Orgs</div>
+        <div class="type-desc">Universities and journals</div>
+        <div class="type-eg">Research papers, trade journals, newspapers</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">Editing of Data</div>
+      <p>After collecting data, it must be carefully <strong>edited</strong> — checked for incomplete, inconsistent, or incorrect entries — before analysis begins. For primary data this means checking questionnaires. For secondary data it means verifying the reliability of the source.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SUMMARY -->
+  <div class="section" id="s10">
+    <div class="summary-box">
+      <h3>Chapter 1 — Quick Summary for Exam</h3>
+      <ul>
+        <li>Statistics = collecting, organizing, analyzing, and interpreting data</li>
+        <li>Descriptive = describes existing data; Inferential = uses sample to conclude about population</li>
+        <li>Population (N) = entire group; Sample (n) = subset of the population</li>
+        <li>Parameter = summary of population; Statistic = summary of sample</li>
+        <li>Quantitative variables = numerical; Qualitative (Attribute) = non-numerical categories</li>
+        <li>Discrete = counts (whole numbers only); Continuous = measurements (any value)</li>
+        <li>4 Scales: Nominal → Ordinal → Interval → Ratio (NOIR)</li>
+        <li>Interval: equal gaps, no true zero (Temperature); Ratio: equal gaps + true zero (Weight)</li>
+        <li>Biased errors accumulate; Unbiased errors cancel out</li>
+        <li>Primary data = collected first-hand; Secondary data = already processed by others</li>
+        <li>Rounding rule 3: dropped digit = exactly 5 → round up if last kept digit is odd, keep if even</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

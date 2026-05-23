@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 4 – Measures of Dispersion, Moments & Skewness (ITST)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0e1a14;
+    --ink-light: #263830;
+    --ink-muted: #5a7868;
+    --paper: #f3faf5;
+    --paper-warm: #eaf5ee;
+    --paper-card: #ffffff;
+    --accent: #0f7a4a;
+    --accent-light: #88c8a8;
+    --accent-pale: #e4f5ec;
+    --teal: #0a6878;
+    --teal-light: #88ccd8;
+    --teal-pale: #e2f3f7;
+    --gold: #8a6200;
+    --gold-light: #e8c870;
+    --gold-pale: #fdf7dc;
+    --purple: #5a28a0;
+    --purple-light: #c0a0e8;
+    --purple-pale: #f0e8fc;
+    --red: #b01818;
+    --red-pale: #fce8e8;
+    --red-light: #e8a0a0;
+    --orange: #c04808;
+    --orange-pale: #fdf0e2;
+    --orange-light: #f0b888;
+    --border: #c8dece;
+    --shadow: rgba(10,60,30,0.07);
+  }
+
+  body { font-family: 'Source Serif 4', Georgia, serif; background: var(--paper); color: var(--ink); font-size: 16px; line-height: 1.8; }
+
+  /* COVER */
+  .cover { background: linear-gradient(135deg, #0a1a10 0%, #0f2a1a 50%, #0a1c14 100%); color: #fff; padding: 64px 52px 52px; position: relative; overflow: hidden; }
+  .cover::before { content:''; position:absolute; top:-100px; right:-100px; width:450px; height:450px; border-radius:50%; background:var(--accent); opacity:.15; }
+  .cover::after { content:''; position:absolute; bottom:-60px; left:60px; width:260px; height:260px; border-radius:50%; background:var(--teal); opacity:.1; }
+  .cover-badge { display:inline-block; border:1.5px solid var(--accent-light); color:var(--accent-light); font-size:11px; letter-spacing:2px; text-transform:uppercase; padding:6px 14px; border-radius:2px; margin-bottom:28px; }
+  .cover h1 { font-family:'Playfair Display',serif; font-size:clamp(30px,5vw,52px); font-weight:900; line-height:1.08; margin-bottom:16px; }
+  .cover-sub { font-size:16px; color:#a0c8b0; font-style:italic; margin-bottom:36px; font-weight:300; }
+  .cover-meta { display:flex; gap:32px; flex-wrap:wrap; }
+  .cover-meta-item { font-size:12px; color:#507060; text-transform:uppercase; letter-spacing:1px; }
+  .cover-meta-item strong { display:block; font-size:14px; color:#b8d8c8; font-weight:600; text-transform:none; letter-spacing:0; margin-top:2px; }
+
+  /* TOC */
+  .toc { background:var(--paper-warm); border-bottom:1px solid var(--border); padding:32px 52px; }
+  .toc h2 { font-family:'Playfair Display',serif; font-size:12px; letter-spacing:3px; text-transform:uppercase; color:var(--ink-muted); margin-bottom:16px; }
+  .toc-list { list-style:none; display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:8px 32px; }
+  .toc-list li a { text-decoration:none; color:var(--accent); font-size:14px; display:flex; gap:8px; }
+  .toc-list li a::before { content:attr(data-num); font-size:11px; color:var(--ink-muted); min-width:28px; flex-shrink:0; }
+
+  /* CONTENT */
+  .content { max-width:900px; margin:0 auto; padding:0 52px 100px; }
+
+  /* SECTION */
+  .section { padding-top:60px; }
+  .section-label { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--ink-muted); margin-bottom:8px; }
+  .section h2 { font-family:'Playfair Display',serif; font-size:27px; font-weight:700; color:var(--ink); margin-bottom:6px; line-height:1.2; }
+  .section-rule { height:2px; background:linear-gradient(to right,var(--accent),transparent); margin-bottom:28px; border-radius:1px; }
+  h3 { font-family:'Playfair Display',serif; font-size:19px; font-weight:700; color:var(--ink); margin:36px 0 12px; }
+  h4 { font-size:14px; font-weight:600; color:var(--ink-light); margin:22px 0 8px; text-transform:uppercase; letter-spacing:0.5px; }
+  p { margin-bottom:14px; }
+
+  /* TEACHER VOICE */
+  .teacher { border-left:3px solid var(--accent); background:var(--accent-pale); padding:16px 20px; border-radius:0 8px 8px 0; margin:20px 0; }
+  .teacher.gold { border-left-color:var(--gold); background:var(--gold-pale); }
+  .teacher.teal { border-left-color:var(--teal); background:var(--teal-pale); }
+  .teacher.purple { border-left-color:var(--purple); background:var(--purple-pale); }
+  .teacher.red { border-left-color:var(--red); background:var(--red-pale); }
+  .teacher.orange { border-left-color:var(--orange); background:var(--orange-pale); }
+  .teacher-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; font-weight:600; margin-bottom:6px; color:var(--accent); }
+  .teacher.gold .teacher-label { color:var(--gold); }
+  .teacher.teal .teacher-label { color:var(--teal); }
+  .teacher.purple .teacher-label { color:var(--purple); }
+  .teacher.red .teacher-label { color:var(--red); }
+  .teacher.orange .teacher-label { color:var(--orange); }
+  .teacher p { margin:0; font-size:15px; }
+
+  /* DEF CARD */
+  .def-card { background:var(--paper-card); border:1px solid var(--border); border-radius:12px; padding:22px 26px; margin:20px 0; box-shadow:0 2px 8px var(--shadow); }
+  .def-term { font-family:'Playfair Display',serif; font-size:17px; font-weight:700; color:var(--ink); margin-bottom:8px; }
+  .def-body { font-size:15px; }
+  .def-body p { margin-bottom:8px; }
+  .def-body p:last-child { margin:0; }
+
+  /* FORMULA */
+  .formula { background:var(--purple-pale); border:1px solid var(--purple-light); border-radius:8px; padding:14px 24px; text-align:center; font-size:18px; color:var(--purple); margin:16px 0; font-family:'Playfair Display',serif; font-style:italic; }
+  .formula small { font-size:13px; display:block; margin-top:6px; color:var(--purple); font-style:normal; font-family:'Source Serif 4',serif; }
+  .formula-pair { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:16px 0; }
+  .formula-pair .formula { margin:0; font-size:15px; }
+
+  /* QUESTION BOXES */
+  .q-section-header { display:flex; align-items:center; gap:12px; margin:40px 0 20px; padding:14px 20px; border-radius:10px; }
+  .q-section-header.easy { background:var(--accent-pale); border:1px solid var(--accent-light); }
+  .q-section-header.medium { background:var(--gold-pale); border:1px solid var(--gold-light); }
+  .q-section-header.hard { background:var(--red-pale); border:1px solid var(--red-light); }
+  .q-difficulty-badge { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:4px 12px; border-radius:20px; }
+  .q-difficulty-badge.easy { background:var(--accent); color:#fff; }
+  .q-difficulty-badge.medium { background:var(--gold); color:#fff; }
+  .q-difficulty-badge.hard { background:var(--red); color:#fff; }
+  .q-section-header p { margin:0; font-size:14px; color:var(--ink-light); font-style:italic; }
+
+  .q-box { background:var(--paper-card); border:1px solid var(--border); border-radius:12px; margin:18px 0; overflow:hidden; }
+  .q-box.easy { border-left:4px solid var(--accent); }
+  .q-box.medium { border-left:4px solid var(--gold); }
+  .q-box.hard { border-left:4px solid var(--red); }
+  .q-head { padding:16px 22px 12px; display:flex; align-items:flex-start; gap:12px; }
+  .q-num { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; }
+  .q-num.easy { background:var(--accent-pale); color:var(--accent); }
+  .q-num.medium { background:var(--gold-pale); color:var(--gold); }
+  .q-num.hard { background:var(--red-pale); color:var(--red); }
+  .q-text { font-size:15px; line-height:1.7; color:var(--ink); }
+  .q-hint { padding:0 22px 10px 62px; font-size:13px; color:var(--ink-muted); font-style:italic; }
+  .answer-toggle { background:var(--paper-warm); border-top:1px solid var(--border); padding:12px 22px; cursor:pointer; font-size:13px; font-weight:600; color:var(--accent); display:flex; align-items:center; gap:8px; user-select:none; }
+  .answer-toggle::before { content:'▶'; font-size:10px; transition:transform 0.2s; }
+  .answer-toggle.open::before { transform:rotate(90deg); }
+  .answer-content { display:none; padding:16px 22px; background:var(--teal-pale); border-top:1px solid var(--teal-light); font-size:14px; }
+  .answer-content.visible { display:block; }
+  .answer-content .step { display:flex; gap:12px; margin-bottom:10px; }
+  .answer-content .step-n { flex-shrink:0; width:22px; height:22px; border-radius:50%; background:var(--teal); color:#fff; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; margin-top:2px; }
+  .answer-content .step-text { font-size:14px; }
+  .answer-content .result { background:var(--accent-pale); border:1px solid var(--accent-light); border-radius:6px; padding:10px 14px; margin-top:12px; font-weight:600; color:var(--accent); }
+
+  /* CALC TABLE */
+  .calc-table { width:100%; border-collapse:collapse; font-size:13px; margin:14px 0; }
+  .calc-table th { background:var(--accent); color:#fff; padding:9px 12px; text-align:center; font-family:'Playfair Display',serif; }
+  .calc-table td { padding:8px 12px; border-bottom:1px solid var(--border); text-align:center; color:var(--ink-light); }
+  .calc-table tr:nth-child(even) td { background:var(--accent-pale); }
+  .calc-table .total-row td { font-weight:700; color:var(--ink); background:var(--paper-warm) !important; border-top:2px solid var(--border); }
+  .calc-table td:first-child { text-align:left; }
+
+  /* DATA TABLE */
+  .data-table { width:100%; border-collapse:collapse; margin:16px 0; font-size:14px; }
+  .data-table th { background:var(--ink); color:var(--paper); padding:10px 14px; text-align:left; font-family:'Playfair Display',serif; font-size:13px; }
+  .data-table td { padding:9px 14px; border-bottom:1px solid var(--border); color:var(--ink-light); vertical-align:top; }
+  .data-table tr:nth-child(even) td { background:var(--paper-warm); }
+  .data-table td.hl { font-weight:600; color:var(--ink); }
+
+  /* GRIDS */
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+  .concept-card { background:var(--paper-card); border:1px solid var(--border); border-radius:10px; padding:18px 20px; }
+  .concept-card h5 { font-family:'Playfair Display',serif; font-size:15px; margin-bottom:10px; }
+  .concept-card ul { list-style:none; font-size:14px; color:var(--ink-light); }
+  .concept-card ul li { padding:5px 0; border-bottom:1px solid var(--border); display:flex; gap:8px; }
+  .concept-card ul li::before { content:'→'; color:var(--ink-muted); flex-shrink:0; }
+  .concept-card ul li:last-child { border-bottom:none; }
+
+  /* SKEWNESS VISUAL */
+  .skew-row { display:flex; gap:12px; margin:16px 0; flex-wrap:wrap; }
+  .skew-box { flex:1; min-width:180px; background:var(--paper-card); border:1px solid var(--border); border-radius:10px; padding:16px; text-align:center; }
+  .skew-label { font-family:'Playfair Display',serif; font-size:15px; font-weight:700; margin-bottom:8px; }
+  .skew-bar { height:6px; border-radius:4px; margin:8px 0; }
+  .skew-relation { font-size:13px; color:var(--ink-light); font-style:italic; }
+
+  /* KURTOSIS VISUAL */
+  .kurt-row { display:flex; gap:12px; margin:16px 0; flex-wrap:wrap; }
+  .kurt-box { flex:1; min-width:160px; background:var(--paper-card); border:1px solid var(--border); border-radius:10px; padding:16px; text-align:center; }
+  .kurt-label { font-family:'Playfair Display',serif; font-size:14px; font-weight:700; margin-bottom:6px; }
+  .kurt-val { font-size:20px; font-weight:700; margin:8px 0; }
+  .kurt-desc { font-size:12px; color:var(--ink-muted); }
+
+  /* SUMMARY */
+  .summary-box { background:var(--ink); color:#fff; border-radius:12px; padding:32px 36px; margin:48px 0 0; }
+  .summary-box h3 { font-family:'Playfair Display',serif; color:var(--accent-light); font-size:18px; margin:0 0 20px; }
+  .summary-box ul { list-style:none; }
+  .summary-box ul li { padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.08); font-size:14px; color:#a0c8b0; display:flex; gap:10px; }
+  .summary-box ul li::before { content:'✓'; color:var(--accent-light); flex-shrink:0; }
+
+  .divider { height:1px; background:var(--border); margin:40px 0; }
+  .badge { display:inline-block; font-size:11px; font-weight:600; padding:2px 8px; border-radius:4px; }
+  .badge-green { background:var(--accent-pale); color:var(--accent); }
+  .badge-gold { background:var(--gold-pale); color:var(--gold); }
+  .badge-red { background:var(--red-pale); color:var(--red); }
+  .badge-purple { background:var(--purple-pale); color:var(--purple); }
+
+  @media (max-width:640px) {
+    .cover,.toc,.content { padding-left:20px; padding-right:20px; }
+    .two-col,.formula-pair { grid-template-columns:1fr; }
+    .skew-row,.kurt-row { flex-direction:column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-badge">MTH-262 · Chapter 4 · ITST Part 1</div>
+  <h1>Measures of Dispersion,<br>Moments &amp; Skewness</h1>
+  <p class="cover-sub">Introduction to Statistical Theory, Part 1 — Chaudhry &amp; Kamal<br>Full teacher-style explanation with Easy, Medium &amp; Hard questions</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item">Topics<strong>Range · QD · MD · SD · CV · Moments · Skewness · Kurtosis</strong></div>
+    <div class="cover-meta-item">Style<strong>Teacher Explanation + Practice Questions</strong></div>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h2>Contents</h2>
+  <ul class="toc-list">
+    <li><a href="#s1" data-num="4.1">Why Dispersion Matters</a></li>
+    <li><a href="#s2" data-num="4.2">Range</a></li>
+    <li><a href="#s3" data-num="4.3">Quartile Deviation (QD)</a></li>
+    <li><a href="#s4" data-num="4.4">Mean Deviation (MD)</a></li>
+    <li><a href="#s5" data-num="4.5">Variance &amp; Standard Deviation</a></li>
+    <li><a href="#s6" data-num="4.5.3">Coefficient of Variation (CV)</a></li>
+    <li><a href="#s7" data-num="4.5.4">Properties of Variance &amp; SD</a></li>
+    <li><a href="#s8" data-num="4.5.5">Standardized Variables (Z-scores)</a></li>
+    <li><a href="#s9" data-num="4.6">Trimmed &amp; Winsorized Measures</a></li>
+    <li><a href="#s10" data-num="4.7">Moments</a></li>
+    <li><a href="#s11" data-num="4.7.3">Moment Ratios (β₁ &amp; β₂)</a></li>
+    <li><a href="#s12" data-num="4.8">Skewness</a></li>
+    <li><a href="#s13" data-num="4.9">Kurtosis</a></li>
+    <li><a href="#s14" data-num="—">All Practice Questions</a></li>
+  </ul>
+</div>
+
+<div class="content">
+
+<!-- SECTION 1 — WHY DISPERSION -->
+<div class="section" id="s1">
+  <p class="section-label">Introduction</p>
+  <h2>Why Dispersion Matters — The Big Picture</h2>
+  <div class="section-rule"></div>
+
+  <p>Imagine two classes both have an average score of 60 out of 100. Sounds the same, right? But what if Class A has scores like 58, 59, 60, 61, 62 — and Class B has scores like 10, 20, 60, 90, 100? The average is the same, but the data are <em>very</em> different.</p>
+
+  <div class="teacher">
+    <div class="teacher-label">🎓 Teacher Says</div>
+    <p>The average (mean, median, mode) tells you <strong>where the centre of the data is</strong>. But it doesn't tell you how <strong>spread out</strong> the data is around that centre. That's what <em>Dispersion</em> measures. You need BOTH to properly describe any dataset.</p>
+  </div>
+
+  <div class="def-card">
+    <div class="def-term">Dispersion</div>
+    <div class="def-body">
+      <p>The extent to which observations in a sample or population <strong>vary about their mean</strong>. A quantity that measures this is called a <em>measure of dispersion, scatter, or variability</em>.</p>
+      <p>A good measure of dispersion should be: (i) in the same units as the data, (ii) zero when all observations are equal, (iii) independent of origin (shifting data left/right doesn't change spread), (iv) multiplied/divided when the data is scaled.</p>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="concept-card" style="border-top:3px solid var(--accent);">
+      <h5 style="color:var(--accent);">Absolute Measures</h5>
+      <ul>
+        <li>Measured in the same units as the data</li>
+        <li>Range, Quartile Deviation, Mean Deviation, Standard Deviation</li>
+        <li>Cannot compare data in different units</li>
+      </ul>
+    </div>
+    <div class="concept-card" style="border-top:3px solid var(--teal);">
+      <h5 style="color:var(--teal);">Relative Measures</h5>
+      <ul>
+        <li>Expressed as a ratio, coefficient, or percentage — no units</li>
+        <li>Coeff. of Range, Coeff. of QD, Coeff. of MD, Coeff. of Variation</li>
+        <li>Used to compare data in different units (e.g., rupees vs. kg)</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>The four main measures you need to learn are: <strong>Range</strong>, <strong>Quartile Deviation</strong>, <strong>Mean Deviation</strong>, and <strong>Standard Deviation</strong>. Let's take each one carefully.</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 2 — RANGE -->
+<div class="section" id="s2">
+  <p class="section-label">Section 4.2</p>
+  <h2>The Range</h2>
+  <div class="section-rule"></div>
+
+  <div class="def-card">
+    <div class="def-term">Range (R)</div>
+    <div class="def-body"><p>The simplest measure of dispersion. It's just the difference between the <strong>largest</strong> and <strong>smallest</strong> values in the data.</p></div>
+  </div>
+
+  <div class="formula-pair">
+    <div class="formula">R = x_max − x_min<small>x_max = largest value, x_min = smallest value</small></div>
+    <div class="formula">Coeff. of Dispersion = (x_max − x_min) / (x_max + x_min)<small>A pure number — no units. Used to compare.</small></div>
+  </div>
+
+  <div class="teacher gold">
+    <div class="teacher-label">📌 When to Use Range</div>
+    <p>Range is used in: daily temperatures, stock prices, and statistical quality control of products. It's fast to calculate but has one big weakness — it only uses TWO values (the extremes) and ignores everything in between. One outlier can make it misleading.</p>
+  </div>
+
+  <div class="teacher red">
+    <div class="teacher-label">⚠️ Disadvantages of Range</div>
+    <p>(1) It ignores ALL the intermediate observations — only the two extremes matter. (2) It is greatly affected by extreme values (outliers). (3) Cannot be computed if there are open-end classes in a frequency distribution.</p>
+  </div>
+
+  <!-- EASY QUESTIONS -->
+  <div class="q-section-header easy">
+    <span class="q-difficulty-badge easy">Easy</span>
+    <p>Direct formula questions — just find max, min, and subtract</p>
+  </div>
+
+  <div class="q-box easy">
+    <div class="q-head">
+      <div class="q-num easy">1</div>
+      <div class="q-text">The marks of 9 students are: <strong>45, 32, 37, 46, 39, 36, 41, 48, 36</strong>. Find the Range and the Co-efficient of Dispersion. <span class="badge badge-green">(From Book — Example 4.1)</span></div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">Identify maximum: x_max = <strong>48</strong> (the highest mark)</div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">Identify minimum: x_min = <strong>32</strong> (the lowest mark)</div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-text">Range R = x_max − x_min = 48 − 32 = <strong>16 marks</strong></div></div>
+      <div class="step"><div class="step-n">4</div><div class="step-text">Co-efficient of Dispersion = (48 − 32)/(48 + 32) = 16/80 = <strong>0.20</strong></div></div>
+      <div class="result">Range = 16 marks | Co-efficient of Dispersion = 0.20</div>
+    </div>
+  </div>
+
+  <div class="q-box easy">
+    <div class="q-head">
+      <div class="q-num easy">2</div>
+      <div class="q-text">The daily temperatures (°C) for a week are: <strong>28, 31, 25, 33, 27, 30, 29</strong>. Find the Range and Co-efficient of Dispersion.</div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">Maximum = <strong>33</strong>, Minimum = <strong>25</strong></div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">Range = 33 − 25 = <strong>8°C</strong></div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-text">Co-efficient = (33−25)/(33+25) = 8/58 = <strong>0.138</strong></div></div>
+      <div class="result">Range = 8°C | Co-efficient of Dispersion ≈ 0.14</div>
+    </div>
+  </div>
+
+  <div class="q-box easy">
+    <div class="q-head">
+      <div class="q-num easy">3</div>
+      <div class="q-text">Which team has MORE variation in goals? Team A scored: 0,1,2,3,4 goals in 5 matches. Team B scored: 2,2,2,2,2 goals in 5 matches. Use Range.</div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">Team A: Range = 4 − 0 = <strong>4</strong></div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">Team B: Range = 2 − 2 = <strong>0</strong></div></div>
+      <div class="result">Team A has more variation (Range = 4). Team B has NO variation — all scores are the same (Range = 0).</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 3 — QUARTILE DEVIATION -->
+<div class="section" id="s3">
+  <p class="section-label">Section 4.3</p>
+  <h2>Quartile Deviation (Semi-Interquartile Range)</h2>
+  <div class="section-rule"></div>
+
+  <div class="teacher">
+    <div class="teacher-label">🎓 Understanding Quartile Deviation</div>
+    <p>Remember Q1 and Q3 from Chapter 3? Q1 is the value that cuts the bottom 25% of data, and Q3 cuts the top 25%. The range from Q1 to Q3 is called the <em>Interquartile Range (IQR)</em> — it covers the middle 50% of data. Half of IQR is the <strong>Quartile Deviation</strong>.</p>
+  </div>
+
+  <div class="formula-pair">
+    <div class="formula">Q.D. = (Q₃ − Q₁) / 2<small>Semi-Interquartile Range</small></div>
+    <div class="formula">Coeff. of Q.D. = (Q₃ − Q₁) / (Q₃ + Q₁)<small>Relative measure — no units</small></div>
+  </div>
+
+  <div class="teacher gold">
+    <div class="teacher-label">💡 Key Fact About QD</div>
+    <p>The interval "Median ± Q.D." contains approximately <strong>50% of the data</strong>. QD is better than Range because it's not affected by extreme values (outliers). It only looks at the middle 50% of the data.</p>
+  </div>
+
+  <div class="teacher red">
+    <div class="teacher-label">⚠️ Disadvantages of QD</div>
+    <p>(1) Ignores the bottom 25% and top 25% — no information about those observations. (2) Not amenable to mathematical treatment (can't use it in further calculations easily). (3) Greatly affected by sampling variability.</p>
+  </div>
+
+  <!-- EASY -->
+  <div class="q-section-header easy">
+    <span class="q-difficulty-badge easy">Easy</span>
+    <p>Direct calculation given Q1 and Q3</p>
+  </div>
+
+  <div class="q-box easy">
+    <div class="q-head">
+      <div class="q-num easy">4</div>
+      <div class="q-text">For the marks data (45,32,37,46,39,36,41,48,36), Q₁ = 36 and Q₃ = 45. Find the Quartile Deviation and the Co-efficient of QD. <span class="badge badge-green">(From Book — Example 4.2)</span></div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">Q.D. = (Q₃ − Q₁)/2 = (45 − 36)/2 = 9/2 = <strong>4.5 marks</strong></div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">Coeff. of Q.D. = (45 − 36)/(45 + 36) = 9/81 = <strong>0.11</strong></div></div>
+      <div class="result">Q.D. = 4.5 marks | Co-efficient of Q.D. = 0.11</div>
+    </div>
+  </div>
+
+  <div class="q-box easy">
+    <div class="q-head">
+      <div class="q-num easy">5</div>
+      <div class="q-text">For a frequency distribution, Q₁ = 56 marks and Q₃ = 74 marks. Calculate the Quartile Deviation and the Co-efficient of QD. <span class="badge badge-green">(From Book — Example 4.2)</span></div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">Q.D. = (74 − 56)/2 = 18/2 = <strong>9 marks</strong></div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">Coeff. of Q.D. = (74 − 56)/(74 + 56) = 18/130 = <strong>0.138 ≈ 0.14</strong></div></div>
+      <div class="result">Q.D. = 9 marks | Co-efficient of Q.D. ≈ 0.14</div>
+    </div>
+  </div>
+
+  <div class="q-section-header medium">
+    <span class="q-difficulty-badge medium">Medium</span>
+    <p>Find Q1 and Q3 from raw data, then compute QD</p>
+  </div>
+
+  <div class="q-box medium">
+    <div class="q-head">
+      <div class="q-num medium">6</div>
+      <div class="q-text">The salaries (Rs.) of 7 employees are: <strong>1200, 1500, 1800, 2200, 2500, 3000, 5000</strong>. Find Q₁, Q₃, Quartile Deviation, and Co-efficient of QD.</div>
+    </div>
+    <div class="q-hint">💡 Hint: For n values, Q₁ = ((n+1)/4)th value, Q₃ = (3(n+1)/4)th value in ordered data.</div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">Data is already ordered. n = 7.</div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">Q₁ position = (7+1)/4 = 2nd value = <strong>Rs. 1500</strong></div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-text">Q₃ position = 3(7+1)/4 = 6th value = <strong>Rs. 3000</strong></div></div>
+      <div class="step"><div class="step-n">4</div><div class="step-text">Q.D. = (3000 − 1500)/2 = <strong>Rs. 750</strong></div></div>
+      <div class="step"><div class="step-n">5</div><div class="step-text">Coeff. of QD = (3000 − 1500)/(3000 + 1500) = 1500/4500 = <strong>0.333</strong></div></div>
+      <div class="result">Q₁ = 1500, Q₃ = 3000, Q.D. = Rs. 750, Coeff. = 0.333</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 4 — MEAN DEVIATION -->
+<div class="section" id="s4">
+  <p class="section-label">Section 4.4</p>
+  <h2>Mean Deviation (MD)</h2>
+  <div class="section-rule"></div>
+
+  <div class="teacher">
+    <div class="teacher-label">🎓 The Idea Behind Mean Deviation</div>
+    <p>We want to measure how far, on average, each observation is from the centre (mean or median). The problem? If we just add the deviations, they cancel out to zero! So we take the <strong>absolute value</strong> (ignore the minus sign) of each deviation. Then we average them. That's the Mean Deviation.</p>
+  </div>
+
+  <div class="formula-pair">
+    <div class="formula">M.D. = Σ|xᵢ − x̄| / n<small>From the Mean (sample)</small></div>
+    <div class="formula">M.D. = Σ|xᵢ − Median| / n<small>From the Median</small></div>
+  </div>
+
+  <div class="formula">For Grouped Data: M.D. = Σ fᵢ|xᵢ − x̄| / n<small>where fᵢ = frequency and xᵢ = class midpoint</small></div>
+
+  <div class="formula-pair">
+    <div class="formula">Coeff. of M.D. = M.D. / Mean<small>Or: M.D. / Median</small></div>
+    <div class="formula">M.D. is MINIMUM when measured from Median<small>Important theorem to remember!</small></div>
+  </div>
+
+  <div class="teacher gold">
+    <div class="teacher-label">💡 Why We Use Absolute Values</div>
+    <p>If we take x₁ − x̄ for each observation, the positive and negative values cancel perfectly (sum = 0, by the first property of the mean). To avoid this, we use |xᵢ − x̄| — the absolute deviation — which is always positive regardless of direction.</p>
+  </div>
+
+  <!-- EASY -->
+  <div class="q-section-header easy">
+    <span class="q-difficulty-badge easy">Easy</span>
+    <p>Compute MD from ungrouped data</p>
+  </div>
+
+  <div class="q-box easy">
+    <div class="q-head">
+      <div class="q-num easy">7</div>
+      <div class="q-text">Calculate the Mean Deviation from (i) the Mean and (ii) the Median for: <strong>45, 32, 37, 46, 39, 36, 41, 48, 36</strong>. Also find the Co-efficient of Mean Deviation. <span class="badge badge-green">(From Book — Example 4.3)</span></div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">Mean x̄ = 360/9 = <strong>40 marks</strong>. Median (5th value of ordered data: 32,36,36,37,39,41,45,46,48) = <strong>39 marks</strong>.</div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">Build the table:
+        <table class="calc-table" style="margin-top:8px;">
+          <thead><tr><th>xᵢ</th><th>|xᵢ − 40|</th><th>|xᵢ − 39|</th></tr></thead>
+          <tbody>
+            <tr><td>32</td><td>8</td><td>7</td></tr>
+            <tr><td>36</td><td>4</td><td>3</td></tr>
+            <tr><td>36</td><td>4</td><td>3</td></tr>
+            <tr><td>37</td><td>3</td><td>2</td></tr>
+            <tr><td>39</td><td>1</td><td>0</td></tr>
+            <tr><td>41</td><td>1</td><td>2</td></tr>
+            <tr><td>45</td><td>5</td><td>6</td></tr>
+            <tr><td>46</td><td>6</td><td>7</td></tr>
+            <tr><td>48</td><td>8</td><td>9</td></tr>
+            <tr class="total-row"><td>Total</td><td>40</td><td>39</td></tr>
+          </tbody>
+        </table>
+      </div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-text">M.D. (from Mean) = 40/9 = <strong>4.4 marks</strong></div></div>
+      <div class="step"><div class="step-n">4</div><div class="step-text">M.D. (from Median) = 39/9 = <strong>4.3 marks</strong> ← SMALLER (as expected)</div></div>
+      <div class="step"><div class="step-n">5</div><div class="step-text">Coeff. of M.D. = 4.4/40 = <strong>0.11</strong></div></div>
+      <div class="result">M.D. from Mean = 4.4 marks | M.D. from Median = 4.3 marks | Coeff. = 0.11</div>
+    </div>
+  </div>
+
+  <div class="q-box easy">
+    <div class="q-head">
+      <div class="q-num easy">8</div>
+      <div class="q-text">Calculate the Mean Deviation from the mean for the values: <strong>2, 4, 6, 8, 10</strong>.</div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">Mean = (2+4+6+8+10)/5 = 30/5 = <strong>6</strong></div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">|2−6|=4, |4−6|=2, |6−6|=0, |8−6|=2, |10−6|=4 → Sum = 12</div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-text">M.D. = 12/5 = <strong>2.4</strong></div></div>
+      <div class="result">M.D. from Mean = 2.4</div>
+    </div>
+  </div>
+
+  <!-- MEDIUM -->
+  <div class="q-section-header medium">
+    <span class="q-difficulty-badge medium">Medium</span>
+    <p>Mean Deviation from grouped frequency distribution</p>
+  </div>
+
+  <div class="q-box medium">
+    <div class="q-head">
+      <div class="q-num medium">9</div>
+      <div class="q-text">Calculate the Mean Deviation from the mean from the following frequency distribution of weights (grams): <span class="badge badge-gold">(From Book — Example 4.4 data)</span>
+        <table class="calc-table" style="margin-top:10px;">
+          <thead><tr><th>Weight (g)</th><th>65–84</th><th>85–104</th><th>105–124</th><th>125–144</th><th>145–164</th><th>165–184</th><th>185–204</th></tr></thead>
+          <tbody><tr><td>Frequency</td><td>9</td><td>10</td><td>17</td><td>10</td><td>5</td><td>4</td><td>5</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="q-hint">💡 Step 1: Find midpoints. Step 2: Compute mean using Σfx/n. Step 3: Compute Σf|x−x̄|. Step 4: Divide by n.</div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">Midpoints: 74.5, 94.5, 114.5, 134.5, 154.5, 174.5, 194.5. Total n = 60.</div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">Σfx = 9×74.5 + 10×94.5 + 17×114.5 + 10×134.5 + 5×154.5 + 4×174.5 + 5×194.5 = 7350. Mean = 7350/60 = <strong>122.5 g</strong></div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-text">
+        |74.5−122.5|=48, |94.5−122.5|=28, |114.5−122.5|=8, |134.5−122.5|=12, |154.5−122.5|=32, |174.5−122.5|=52, |194.5−122.5|=72<br>
+        Σf|x−x̄| = 9×48+10×28+17×8+10×12+5×32+4×52+5×72 = 432+280+136+120+160+208+360 = <strong>1696</strong>
+      </div></div>
+      <div class="step"><div class="step-n">4</div><div class="step-text">M.D. = 1696/60 = <strong>28.27 grams</strong></div></div>
+      <div class="result">Mean Deviation from the Mean = 28.27 grams</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 5 — VARIANCE & SD -->
+<div class="section" id="s5">
+  <p class="section-label">Section 4.5</p>
+  <h2>Variance &amp; Standard Deviation</h2>
+  <div class="section-rule"></div>
+
+  <div class="teacher">
+    <div class="teacher-label">🎓 The Most Important Measure</div>
+    <p>Standard Deviation is the KING of dispersion measures. It uses ALL observations, is mathematically well-behaved, and is the backbone of almost all advanced statistics. The idea: take the deviation of each value from the mean, square it (to make all values positive AND give more weight to large deviations), average the squared deviations — that's the <em>Variance</em>. Take the square root — that's the <em>Standard Deviation</em>.</p>
+  </div>
+
+  <div class="def-card">
+    <div class="def-term">Variance (σ² or s²)</div>
+    <div class="def-body"><p>The mean of the squares of deviations from the mean. Units are squared (e.g., marks²).</p></div>
+  </div>
+
+  <div class="formula-pair">
+    <div class="formula">σ² = Σ(xᵢ − μ)² / N<small>Population Variance</small></div>
+    <div class="formula">s² = Σ(xᵢ − x̄)² / n<small>Sample Variance (divide by n)</small></div>
+  </div>
+
+  <div class="formula">s² = [Σxᵢ² − (Σxᵢ)²/n] / n &nbsp;=&nbsp; Σxᵢ²/n − (x̄)²<small>Short-cut Formula: "Mean of squares minus square of mean"</small></div>
+
+  <div class="formula">s = √s² = √[Σxᵢ²/n − (x̄)²]<small>Standard Deviation = positive square root of Variance</small></div>
+
+  <h3>Short Method (Change of Origin and Scale)</h3>
+  <p>When numbers are large, calculations are tedious. We use a <strong>coding method</strong>:</p>
+  <div class="formula">u = (x − a) / h &nbsp;→&nbsp; s = h × √[Σfᵢuᵢ²/n − (Σfᵢuᵢ/n)²]<small>a = assumed mean (usually midpoint of class with highest frequency), h = class width</small></div>
+
+  <!-- EASY -->
+  <div class="q-section-header easy">
+    <span class="q-difficulty-badge easy">Easy</span>
+    <p>Calculate variance and SD from small ungrouped datasets</p>
+  </div>
+
+  <div class="q-box easy">
+    <div class="q-head">
+      <div class="q-num easy">10</div>
+      <div class="q-text">Calculate Variance and Standard Deviation for the population: <strong>7, 8, 10, 13, 14, 19, 20, 25, 26, 28</strong>. <span class="badge badge-green">(From Book — Example 4.5)</span></div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">N=10, Σxᵢ = 170, μ = 170/10 = <strong>17</strong></div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">Σxᵢ² = 49+64+100+169+196+361+400+625+676+784 = <strong>3424</strong></div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-text">σ² = 3424/10 − (17)² = 342.4 − 289 = <strong>53.4</strong></div></div>
+      <div class="step"><div class="step-n">4</div><div class="step-text">σ = √53.4 = <strong>7.31</strong></div></div>
+      <div class="result">Variance σ² = 53.4 | Standard Deviation σ = 7.31</div>
+    </div>
+  </div>
+
+  <div class="q-box easy">
+    <div class="q-head">
+      <div class="q-num easy">11</div>
+      <div class="q-text">Calculate Variance and Standard Deviation for the sample: <strong>45, 32, 37, 46, 39, 36, 41, 48, 36</strong>. <span class="badge badge-green">(From Book — Example 4.6)</span></div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">n=9, Σxᵢ = 360, x̄ = 40</div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">Σxᵢ² = 2025+1024+1369+2116+1521+1296+1681+2304+1296 = <strong>14632</strong></div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-text">s² = 14632/9 − (360/9)² = 1625.78 − 1600 = <strong>25.78 (marks)²</strong></div></div>
+      <div class="step"><div class="step-n">4</div><div class="step-text">s = √25.78 = <strong>5.08 marks</strong></div></div>
+      <div class="result">Variance s² = 25.78 (marks)² | Standard Deviation s = 5.08 marks</div>
+    </div>
+  </div>
+
+  <!-- MEDIUM -->
+  <div class="q-section-header medium">
+    <span class="q-difficulty-badge medium">Medium</span>
+    <p>SD from grouped data — direct and short methods</p>
+  </div>
+
+  <div class="q-box medium">
+    <div class="q-head">
+      <div class="q-num medium">12</div>
+      <div class="q-text">Calculate the Variance and Standard Deviation from the weight distribution (Example 4.4 data — same as Q9 above). <span class="badge badge-gold">(From Book — Example 4.7)</span></div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">From Q9: x̄ = 122.5 g, n = 60, Σfxᵢ = 7350</div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">Σfxᵢ² = 9×74.5²+10×94.5²+17×114.5²+10×134.5²+5×154.5²+4×174.5²+5×194.5²<br>
+      = 49952.25+89302.50+222874.25+180902.50+119351.25+121801.00+189151.25 = <strong>973335</strong></div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-text">s² = 973335/60 − (7350/60)² = 16222.25 − 15006.25 = <strong>1216 (grams)²</strong></div></div>
+      <div class="step"><div class="step-n">4</div><div class="step-text">s = √1216 = <strong>34.87 grams</strong></div></div>
+      <div class="result">Variance s² = 1216 (g)² | Standard Deviation s = 34.87 grams</div>
+    </div>
+  </div>
+
+  <div class="q-box medium">
+    <div class="q-head">
+      <div class="q-num medium">13</div>
+      <div class="q-text">Find the Standard Deviation using the <strong>SHORT METHOD</strong> (Change of Origin and Scale) for the weight frequency distribution. Use a = 114.5 and h = 20. <span class="badge badge-gold">(From Book — Example 4.8)</span></div>
+    </div>
+    <div class="q-hint">💡 u = (x − 114.5)/20. Then s = h × √[Σfu²/n − (Σfu/n)²]</div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">
+        <table class="calc-table">
+          <thead><tr><th>xᵢ</th><th>fᵢ</th><th>uᵢ</th><th>fᵢuᵢ</th><th>fᵢuᵢ²</th></tr></thead>
+          <tbody>
+            <tr><td>74.5</td><td>9</td><td>−2</td><td>−18</td><td>36</td></tr>
+            <tr><td>94.5</td><td>10</td><td>−1</td><td>−10</td><td>10</td></tr>
+            <tr><td>114.5</td><td>17</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>134.5</td><td>10</td><td>1</td><td>10</td><td>10</td></tr>
+            <tr><td>154.5</td><td>5</td><td>2</td><td>10</td><td>20</td></tr>
+            <tr><td>174.5</td><td>4</td><td>3</td><td>12</td><td>36</td></tr>
+            <tr><td>194.5</td><td>5</td><td>4</td><td>20</td><td>80</td></tr>
+            <tr class="total-row"><td>Total</td><td>60</td><td></td><td>+24</td><td>192</td></tr>
+          </tbody>
+        </table>
+      </div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">s = 20 × √[192/60 − (24/60)²] = 20 × √[3.20 − 0.16] = 20 × √3.04 = 20 × 1.7436 = <strong>34.87 grams ✓</strong></div></div>
+      <div class="result">Standard Deviation = 34.87 grams (same answer, much easier calculation!)</div>
+    </div>
+  </div>
+
+  <!-- HARD -->
+  <div class="q-section-header hard">
+    <span class="q-difficulty-badge hard">Hard</span>
+    <p>Combined variance, proofs, multi-step problems</p>
+  </div>
+
+  <div class="q-box hard">
+    <div class="q-head">
+      <div class="q-num hard">14</div>
+      <div class="q-text">Two groups have: Group 1 (n₁=50, x̄₁=113, s₁²=9) and Group 2 (n₂=100, x̄₂=116, s₂²=16). Find the combined variance of all 150 observations. <span class="badge badge-red">(From Book — Section 4.5.4)</span></div>
+    </div>
+    <div class="q-hint">💡 Formula: σ² = (1/N) × Σ Nᵢ(σᵢ² + Dᵢ²) where Dᵢ = x̄ᵢ − x̄_combined</div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">Combined mean: x̄ = (50×113 + 100×116)/(50+100) = (5650+11600)/150 = 17250/150 = <strong>115</strong></div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">D₁ = 113 − 115 = −2 → D₁² = 4 | D₂ = 116 − 115 = 1 → D₂² = 1</div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-text">σ² = [50(9 + 4) + 100(16 + 1)] / 150 = [50×13 + 100×17] / 150 = [650 + 1700] / 150 = 2350/150 = <strong>15.67</strong></div></div>
+      <div class="result">Combined Variance = 15.67 | Combined S.D. = √15.67 = 3.96</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 6 — CV -->
+<div class="section" id="s6">
+  <p class="section-label">Section 4.5.3</p>
+  <h2>Coefficient of Variation (CV)</h2>
+  <div class="section-rule"></div>
+
+  <div class="teacher">
+    <div class="teacher-label">🎓 When Do We Use CV?</div>
+    <p>Imagine you want to compare the variation in: (1) heights of students (in cm) and (2) weights of students (in kg). You can't compare their standard deviations directly because they have different units! CV solves this by expressing the SD as a percentage of the mean — making it unit-free and comparable across different types of data.</p>
+  </div>
+
+  <div class="formula-pair">
+    <div class="formula">C.V. = (s / x̄) × 100%<small>Sample Coefficient of Variation</small></div>
+    <div class="formula">C.V. = (σ / μ) × 100%<small>Population Coefficient of Variation</small></div>
+  </div>
+
+  <div class="teacher gold">
+    <div class="teacher-label">💡 Interpreting CV</div>
+    <p>• <strong>Larger CV = More variation (less consistent)</strong><br>
+    • <strong>Smaller CV = Less variation (more consistent)</strong><br><br>
+    In cricket, the player with the <em>smaller</em> CV of scores is more <em>consistent</em>. In quality control, the product with smaller CV has more <em>uniform</em> quality.</p>
+  </div>
+
+  <!-- EASY -->
+  <div class="q-section-header easy">
+    <span class="q-difficulty-badge easy">Easy</span>
+    <p>Compute CV and compare two datasets</p>
+  </div>
+
+  <div class="q-box easy">
+    <div class="q-head">
+      <div class="q-num easy">15</div>
+      <div class="q-text">Price in Rs.: mean = 18.4, SD = 7.66. Life in hours: mean = 211 hours, SD = 78.38 hours. Which has greater relative variation? <span class="badge badge-green">(From Book — Example 4.9)</span></div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">CV for Prices = (7.66/18.4) × 100 = <strong>41.63%</strong></div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">CV for Life in Hours = (78.38/211) × 100 = <strong>37.15%</strong></div></div>
+      <div class="result">Prices have greater relative variation (41.63% > 37.15%). Life in hours is more consistent.</div>
+    </div>
+  </div>
+
+  <!-- MEDIUM -->
+  <div class="q-section-header medium">
+    <span class="q-difficulty-badge medium">Medium</span>
+    <p>Football team consistency problem</p>
+  </div>
+
+  <div class="q-box medium">
+    <div class="q-head">
+      <div class="q-num medium">16</div>
+      <div class="q-text">Goals scored by two teams over a football season:
+        <table class="calc-table" style="margin-top:10px;">
+          <thead><tr><th>Goals (x)</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th></tr></thead>
+          <tbody>
+            <tr><td>Team A (freq)</td><td>27</td><td>9</td><td>8</td><td>5</td><td>4</td></tr>
+            <tr><td>Team B (freq)</td><td>17</td><td>9</td><td>6</td><td>5</td><td>3</td></tr>
+          </tbody>
+        </table>
+        Which team is more consistent? <span class="badge badge-gold">(From Book — Example 4.10)</span>
+      </div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text"><strong>Team A:</strong> n=53. Σfx = 0+9+16+15+16 = 56. Mean = 56/53 = <strong>1.06</strong><br>
+      Σfx² = 0+9+32+45+64 = 150. s² = 150/53 − (56/53)² = 2.830 − 1.119 = 1.711. s = 1.308<br>
+      CV(A) = (1.308/1.06)×100 = <strong>123.4%</strong></div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text"><strong>Team B:</strong> n=40. Σfx = 0+9+12+15+12 = 48. Mean = 48/40 = <strong>1.20</strong><br>
+      Σfx² = 0+9+24+45+48 = 126. s² = 126/40 − (48/40)² = 3.15 − 1.44 = 1.71. s = 1.308<br>
+      CV(B) = (1.308/1.20)×100 = <strong>109.0%</strong></div></div>
+      <div class="result">CV(B) = 109% < CV(A) = 123.4% → Team B is MORE consistent than Team A.</div>
+    </div>
+  </div>
+
+  <!-- HARD -->
+  <div class="q-box hard">
+    <div class="q-head">
+      <div class="q-num hard">17</div>
+      <div class="q-text">Two batsmen A and B scored the following runs in 10 innings: A: 12,76,48,19,199,36,84,29,4,51 &nbsp; B: 73,7,48,13,0,6,12,76,48,36. Find which batsman is more consistent. <span class="badge badge-red">(High difficulty)</span></div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text"><strong>Batsman A:</strong> n=10, ΣxA = 558, x̄A = 55.8<br>
+      ΣxA² = 144+5776+2304+361+39601+1296+7056+841+16+2601 = 59996<br>
+      sA² = 59996/10 − (55.8)² = 5999.6 − 3113.64 = 2885.96, sA = 53.72<br>
+      CV(A) = (53.72/55.8)×100 = <strong>96.27%</strong></div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text"><strong>Batsman B:</strong> n=10, ΣxB = 319, x̄B = 31.9<br>
+      ΣxB² = 5329+49+2304+169+0+36+144+5776+2304+1296 = 17407<br>
+      sB² = 17407/10 − (31.9)² = 1740.7 − 1017.61 = 723.09, sB = 26.89<br>
+      CV(B) = (26.89/31.9)×100 = <strong>84.30%</strong></div></div>
+      <div class="result">CV(B) = 84.30% < CV(A) = 96.27% → Batsman B is MORE consistent.</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 7 — PROPERTIES -->
+<div class="section" id="s7">
+  <p class="section-label">Section 4.5.4</p>
+  <h2>Properties of Variance and Standard Deviation</h2>
+  <div class="section-rule"></div>
+
+  <div class="teacher">
+    <div class="teacher-label">🎓 These Properties Are Heavily Tested</div>
+    <p>These rules tell you what happens to variance and SD when you add a constant to data, or multiply data by a constant. Very useful in shortcuts!</p>
+  </div>
+
+  <div class="data-table">
+    <table class="data-table">
+      <thead><tr><th>Property</th><th>Rule for Variance</th><th>Rule for SD</th><th>Simple Explanation</th></tr></thead>
+      <tbody>
+        <tr><td class="hl">Var(constant)</td><td>= 0</td><td>= 0</td><td>If all values are the same, there's no spread.</td></tr>
+        <tr><td class="hl">Var(X + a)</td><td>= Var(X)</td><td>SD(X+a) = SD(X)</td><td>Adding a constant SHIFTS data but doesn't change spread.</td></tr>
+        <tr><td class="hl">Var(aX)</td><td>= a² × Var(X)</td><td>SD(aX) = |a| × SD(X)</td><td>Multiplying by a constant SCALES the spread — variance by a², SD by |a|.</td></tr>
+        <tr><td class="hl">Var(X ± Y) — Independent</td><td>= Var(X) + Var(Y)</td><td>√[Var(X)+Var(Y)]</td><td>For independent variables, variances ADD (never subtract)!</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="q-section-header easy">
+    <span class="q-difficulty-badge easy">Easy</span>
+    <p>Apply properties directly</p>
+  </div>
+
+  <div class="q-box easy">
+    <div class="q-head">
+      <div class="q-num easy">18</div>
+      <div class="q-text">A dataset has mean = 60 and SD = 8. If every value is increased by 5, what are the new mean and SD? If instead every value is multiplied by 2, what are the new mean and SD?</div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text"><strong>Adding 5:</strong> New mean = 60+5 = <strong>65</strong>. SD unchanged = <strong>8</strong>. (Adding shifts centre, not spread)</div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text"><strong>Multiplying by 2:</strong> New mean = 2×60 = <strong>120</strong>. New SD = 2×8 = <strong>16</strong>. New Variance = 4×64 = <strong>256</strong>.</div></div>
+      <div class="result">After +5: Mean=65, SD=8 (unchanged) | After ×2: Mean=120, SD=16, Variance=256</div>
+    </div>
+  </div>
+
+  <div class="q-box medium">
+    <div class="q-head">
+      <div class="q-num medium">19</div>
+      <div class="q-text">X and Y are independent. Var(X) = 2, Var(Y) = 4, Cov(X,Y) = −2. Find Var(3X − 4Y + 8). <span class="badge badge-gold">(From Book — Section 4.5.4)</span></div>
+    </div>
+    <div class="q-hint">💡 Formula: Var(aX + bY + c) = a²Var(X) + b²Var(Y) + 2ab·Cov(X,Y)</div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">Var(3X−4Y+8) = (3)²Var(X) + (−4)²Var(Y) + 2(3)(−4)×Cov(X,Y)</div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">= 9×2 + 16×4 + 2(3)(−4)(−2) = 18 + 64 + 48 = <strong>130</strong></div></div>
+      <div class="result">Var(3X−4Y+8) = 130</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 8 — Z-SCORES -->
+<div class="section" id="s8">
+  <p class="section-label">Section 4.5.5</p>
+  <h2>Standardized Variables (Z-scores)</h2>
+  <div class="section-rule"></div>
+
+  <div class="teacher">
+    <div class="teacher-label">🎓 What is a Z-score?</div>
+    <p>A Z-score tells you: <em>"How many standard deviations is this observation away from the mean?"</em> A student who scored 70 in an exam where mean=60 and SD=5 is (70−60)/5 = 2 standard deviations above average. A student in another exam where mean=60 and SD=20 who scored 70 is only (70−60)/20 = 0.5 SD above — much less impressive! Z-scores let you compare across different scales.</p>
+  </div>
+
+  <div class="formula-pair">
+    <div class="formula">Z = (X − μ) / σ<small>Population Z-score</small></div>
+    <div class="formula">Z = (x − x̄) / s<small>Sample Z-score</small></div>
+  </div>
+
+  <div class="teacher gold">
+    <div class="teacher-label">💡 Key Property</div>
+    <p>For any standardized variable Z: Mean of Z = 0, Variance of Z = 1. This is always true, regardless of what the original distribution looked like. Z-scores have no units.</p>
+  </div>
+
+  <div class="q-box easy">
+    <div class="q-head">
+      <div class="q-num easy">20</div>
+      <div class="q-text">A student scored 75 in Statistics (class mean=65, SD=10) and 80 in Math (class mean=70, SD=20). In which subject did the student perform relatively better?</div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">Z for Statistics = (75−65)/10 = 10/10 = <strong>1.0</strong></div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">Z for Math = (80−70)/20 = 10/20 = <strong>0.5</strong></div></div>
+      <div class="result">The student performed relatively better in Statistics (Z=1.0 > Z=0.5). The 10-mark gap above the mean was more impressive in Statistics where SD is smaller.</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 9 — TRIMMED & WINSORIZED -->
+<div class="section" id="s9">
+  <p class="section-label">Section 4.6</p>
+  <h2>Trimmed &amp; Winsorized Measures</h2>
+  <div class="section-rule"></div>
+
+  <div class="teacher">
+    <div class="teacher-label">🎓 The Problem of Outliers</div>
+    <p>Imagine you have exam scores: 50, 55, 58, 60, 62, 65, 68, 70, 98. That 98 is an outlier — it pulls the mean upward and inflates the SD. When outliers are present, the mean and SD become misleading. We need <em>resistant</em> measures.</p>
+  </div>
+
+  <div class="two-col">
+    <div class="concept-card" style="border-top:3px solid var(--teal);">
+      <h5 style="color:var(--teal);">Trimmed Data</h5>
+      <ul>
+        <li>Remove a certain % of smallest AND largest observations</li>
+        <li>Typically: remove values below Q₁ and above Q₃</li>
+        <li>Trimmed Mean = mean of remaining values</li>
+        <li>Trimmed SD = SD of remaining values</li>
+        <li>Effect: outliers are gone completely</li>
+      </ul>
+    </div>
+    <div class="concept-card" style="border-top:3px solid var(--purple);">
+      <h5 style="color:var(--purple);">Winsorized Data (C.P. Winsor)</h5>
+      <ul>
+        <li>Replace extreme values — don't remove them</li>
+        <li>Values below Q₁ → replace with Q₁ value</li>
+        <li>Values above Q₃ → replace with Q₃ value</li>
+        <li>Winsorized Mean = mean of modified dataset</li>
+        <li>Effect: outliers are "pulled in" to the boundaries</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="q-box medium">
+    <div class="q-head">
+      <div class="q-num medium">21</div>
+      <div class="q-text">For the data: <strong>32, 36, 36, 37, 39, 41, 45, 46, 48</strong> (where Q₁=36 and Q₃=45), calculate the Trimmed Mean and Winsorized Mean. <span class="badge badge-gold">(From Book — Example 4.12)</span></div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text"><strong>Trimmed:</strong> Remove values below Q₁=36 (i.e., remove 32 and one 36) and above Q₃=45 (remove 46 and 48). Remaining: 36, 37, 39, 41, 45.</div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">Trimmed Mean = (36+37+39+41+45)/5 = 198/5 = <strong>39.6</strong></div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-text"><strong>Winsorized:</strong> Replace 32 and 36 (below Q₁) with 36, and 46 and 48 (above Q₃) with 45. New dataset: 36, 36, 36, 37, 39, 41, 45, 45, 45.</div></div>
+      <div class="step"><div class="step-n">4</div><div class="step-text">Winsorized Mean = (36+36+36+37+39+41+45+45+45)/9 = 360/9 = <strong>40</strong></div></div>
+      <div class="result">Trimmed Mean = 39.6 | Winsorized Mean = 40 (same as original mean here, but SD would differ)</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 10 — MOMENTS -->
+<div class="section" id="s10">
+  <p class="section-label">Section 4.7</p>
+  <h2>Moments</h2>
+  <div class="section-rule"></div>
+
+  <div class="teacher">
+    <div class="teacher-label">🎓 What Are Moments?</div>
+    <p>In physics, a "moment" is the turning effect of a force. In statistics, a <em>moment</em> is the average of powers of deviations. The rth moment = average of the rth power of deviations from some point. Moments are used to describe the shape of a distribution — its centre, spread, skewness, and peakedness.</p>
+  </div>
+
+  <h3>Moments About the Mean (Central Moments)</h3>
+  <div class="formula-pair">
+    <div class="formula">mᵣ = (1/n) Σ(xᵢ − x̄)ʳ<small>rth Sample Central Moment</small></div>
+    <div class="formula">μᵣ = (1/N) Σ(xᵢ − μ)ʳ<small>rth Population Central Moment</small></div>
+  </div>
+
+  <h3>Moments About Arbitrary Origin (a)</h3>
+  <div class="formula-pair">
+    <div class="formula">m'ᵣ = (1/n) Σfᵢ(xᵢ − a)ʳ<small>rth Sample Raw Moment</small></div>
+    <div class="formula">m'ᵣ = (1/n) Σfᵢuᵢʳ × hʳ (short method)<small>where u = (x−a)/h</small></div>
+  </div>
+
+  <div class="teacher gold">
+    <div class="teacher-label">📌 Special Values of r</div>
+    <p>• <strong>r = 0:</strong> m₀ = 1 always (trivial)<br>
+    • <strong>r = 1:</strong> m₁ = 0 (mean of deviations from mean = 0 always)<br>
+    • <strong>r = 2:</strong> m₂ = s² (the variance — the second central moment is the variance!)<br>
+    • <strong>r = 3:</strong> m₃ measures skewness (asymmetry)<br>
+    • <strong>r = 4:</strong> m₄ measures kurtosis (peakedness)</p>
+  </div>
+
+  <h3>Converting Raw Moments to Central Moments</h3>
+  <div class="teacher teal">
+    <div class="teacher-label">Very Important Formulas</div>
+    <p>Given moments about arbitrary origin (m'₁, m'₂, m'₃, m'₄), find moments about mean:<br><br>
+    m₁ = 0<br>
+    m₂ = m'₂ − (m'₁)²<br>
+    m₃ = m'₃ − 3m'₂·m'₁ + 2(m'₁)³<br>
+    m₄ = m'₄ − 4m'₃·m'₁ + 6m'₂·(m'₁)² − 3(m'₁)⁴</p>
+  </div>
+
+  <!-- EASY -->
+  <div class="q-section-header easy">
+    <span class="q-difficulty-badge easy">Easy</span>
+    <p>Calculate first four moments from raw data</p>
+  </div>
+
+  <div class="q-box easy">
+    <div class="q-head">
+      <div class="q-num easy">22</div>
+      <div class="q-text">Calculate the first four moments about the mean for: <strong>45, 32, 37, 46, 39, 36, 41, 48, 36</strong>. <span class="badge badge-green">(From Book — Example 4.13)</span></div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">Mean x̄ = 40 (calculated before)</div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">
+        <table class="calc-table">
+          <thead><tr><th>xᵢ</th><th>xᵢ−x̄</th><th>(xᵢ−x̄)²</th><th>(xᵢ−x̄)³</th><th>(xᵢ−x̄)⁴</th></tr></thead>
+          <tbody>
+            <tr><td>32</td><td>−8</td><td>64</td><td>−512</td><td>4096</td></tr>
+            <tr><td>36</td><td>−4</td><td>16</td><td>−64</td><td>256</td></tr>
+            <tr><td>36</td><td>−4</td><td>16</td><td>−64</td><td>256</td></tr>
+            <tr><td>37</td><td>−3</td><td>9</td><td>−27</td><td>81</td></tr>
+            <tr><td>39</td><td>−1</td><td>1</td><td>−1</td><td>1</td></tr>
+            <tr><td>41</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+            <tr><td>45</td><td>5</td><td>25</td><td>125</td><td>625</td></tr>
+            <tr><td>46</td><td>6</td><td>36</td><td>216</td><td>1296</td></tr>
+            <tr><td>48</td><td>8</td><td>64</td><td>512</td><td>4096</td></tr>
+            <tr class="total-row"><td>Total</td><td>0</td><td>232</td><td>186</td><td>10708</td></tr>
+          </tbody>
+        </table>
+      </div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-text">m₁ = 0/9 = <strong>0</strong> (always zero) | m₂ = 232/9 = <strong>25.78</strong> | m₃ = 186/9 = <strong>20.67</strong> | m₄ = 10708/9 = <strong>1189.78</strong></div></div>
+      <div class="result">m₁=0, m₂=25.78 (marks)², m₃=20.67 (marks)³, m₄=1189.78 (marks)⁴</div>
+    </div>
+  </div>
+
+  <!-- MEDIUM -->
+  <div class="q-section-header medium">
+    <span class="q-difficulty-badge medium">Medium</span>
+    <p>Convert raw moments to central moments</p>
+  </div>
+
+  <div class="q-box medium">
+    <div class="q-head">
+      <div class="q-num medium">23</div>
+      <div class="q-text">The first three moments of a distribution about the value x = 2 are 1, 16, and −40. Show that the mean is 3, variance is 15, and m₃ = −86. Also find moments about x = 0. <span class="badge badge-gold">(From Book — Example 4.16)</span></div>
+    </div>
+    <div class="q-hint">💡 Given: m'₁=1, m'₂=16, m'₃=−40, and a=2. Then x̄ = m'₁ + a.</div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">Mean = m'₁ + a = 1 + 2 = <strong>3</strong> ✓</div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">Variance m₂ = m'₂ − (m'₁)² = 16 − 1² = <strong>15</strong> ✓</div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-text">m₃ = m'₃ − 3m'₂·m'₁ + 2(m'₁)³ = −40 − 3(16)(1) + 2(1)³ = −40 − 48 + 2 = <strong>−86</strong> ✓</div></div>
+      <div class="step"><div class="step-n">4</div><div class="step-text">Moments about x=0: (1/n)Σfx = m'₁ + a = 1+2 = <strong>3</strong> | (1/n)Σfx² = m'₂ + 2a·m'₁·a² (expanding) = 16−4+4(3) = <strong>24</strong> | (1/n)Σfx³ = −40+8−12(3)+6(24) = <strong>76</strong></div></div>
+      <div class="result">Mean=3, Variance=15, m₃=−86 | Moments about 0: 3, 24, 76</div>
+    </div>
+  </div>
+
+  <!-- HARD — MOMENTS FROM GROUPED DATA -->
+  <div class="q-section-header hard">
+    <span class="q-difficulty-badge hard">Hard</span>
+    <p>First four moments from frequency distribution using coded values</p>
+  </div>
+
+  <div class="q-box hard">
+    <div class="q-head">
+      <div class="q-num hard">24</div>
+      <div class="q-text">Calculate the first four moments about the mean from the weight distribution (class intervals 65–84, 85–104, …, 185–204 with frequencies 9,10,17,10,5,4,5). Use a = 114.5, h = 20. <span class="badge badge-red">(From Book — Example 4.15)</span></div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">u = (x − 114.5)/20. Build table: Σfu=24, Σfu²=192, Σfu³=396, Σfu⁴=1848. n=60.</div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">Raw moments: m'₁=24/60=0.4, m'₂=192/60=3.2, m'₃=396/60=6.6, m'₄=1848/60=30.8</div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-text">Central moments in u-units: m₂ = 3.2 − (0.4)² = 3.04 | m₃ = 6.6 − 3(3.2)(0.4) + 2(0.4)³ = 2.89 | m₄ = 30.8 − 4(6.6)(0.4)+6(3.2)(0.4)²−3(0.4)⁴ = 23.24</div></div>
+      <div class="step"><div class="step-n">4</div><div class="step-text">Convert to original units (multiply m₂ by h²=400, m₃ by h³=8000, m₄ by h⁴=160000): m₂=1216 g², m₃=23120 g³, m₄=3,718,400 g⁴</div></div>
+      <div class="result">m₁=0, m₂=1216 g², m₃=23120 g³, m₄=3,718,400 g⁴</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 11 — MOMENT RATIOS -->
+<div class="section" id="s11">
+  <p class="section-label">Section 4.7.3</p>
+  <h2>Moment Ratios (β₁ and β₂)</h2>
+  <div class="section-rule"></div>
+
+  <div class="teacher">
+    <div class="teacher-label">🎓 Why Moment Ratios?</div>
+    <p>The raw moments (m₂, m₃, m₄) have units (marks², marks³, etc.). To make shape comparisons between distributions unit-free, we form ratios. β₁ and β₂ are the most important.</p>
+  </div>
+
+  <div class="formula-pair">
+    <div class="formula">β₁ = m₃² / m₂³<small>Measure of Skewness (zero for symmetric)</small></div>
+    <div class="formula">β₂ = m₄ / m₂²<small>Measure of Kurtosis (=3 for normal distribution)</small></div>
+  </div>
+
+  <div class="teacher gold">
+    <div class="teacher-label">📌 Sample Equivalents</div>
+    <p>b₁ = m₃² / m₂³ (sample skewness measure) | b₂ = m₄ / m₂² (sample kurtosis measure)<br><br>
+    For a normal (bell-shaped) distribution: β₁ = 0, β₂ = 3</p>
+  </div>
+
+  <div class="q-box easy">
+    <div class="q-head">
+      <div class="q-num easy">25</div>
+      <div class="q-text">For the marks data (45,32,37,46,39,36,41,48,36), we found m₂=25.78 and m₃=20.67 and m₄=1189.78. Calculate b₁ and b₂.</div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">b₁ = m₃² / m₂³ = (20.67)² / (25.78)³ = 427.25 / 17130.45 = <strong>0.025</strong></div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">b₂ = m₄ / m₂² = 1189.78 / (25.78)² = 1189.78 / 664.62 = <strong>1.79</strong></div></div>
+      <div class="result">b₁ = 0.025 (close to 0 — nearly symmetric) | b₂ = 1.79 (less than 3 — platykurtic, flat-topped)</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 12 — SKEWNESS -->
+<div class="section" id="s12">
+  <p class="section-label">Section 4.8</p>
+  <h2>Skewness</h2>
+  <div class="section-rule"></div>
+
+  <div class="teacher">
+    <div class="teacher-label">🎓 What is Skewness?</div>
+    <p>In a perfectly symmetric distribution, the left side is a mirror image of the right side, and the mean = median = mode. Skewness measures <em>how much and in which direction</em> the distribution deviates from symmetry. Think of a tail — which way does it drag?</p>
+  </div>
+
+  <div class="skew-row">
+    <div class="skew-box">
+      <div class="skew-label" style="color:var(--teal);">Symmetrical</div>
+      <div class="skew-bar" style="background:linear-gradient(to right,var(--teal-light),var(--teal),var(--teal-light));"></div>
+      <div class="skew-relation">Mean = Median = Mode<br>Sk = 0, β₁ = 0</div>
+    </div>
+    <div class="skew-box">
+      <div class="skew-label" style="color:var(--accent);">Positively Skewed (Right tail)</div>
+      <div class="skew-bar" style="background:linear-gradient(to right,var(--accent),var(--accent-light),transparent);"></div>
+      <div class="skew-relation">Mode &lt; Median &lt; Mean<br>Sk &gt; 0, long right tail</div>
+    </div>
+    <div class="skew-box">
+      <div class="skew-label" style="color:var(--red);">Negatively Skewed (Left tail)</div>
+      <div class="skew-bar" style="background:linear-gradient(to right,transparent,var(--red-light),var(--red));"></div>
+      <div class="skew-relation">Mean &lt; Median &lt; Mode<br>Sk &lt; 0, long left tail</div>
+    </div>
+  </div>
+
+  <h3>Measures of Skewness</h3>
+
+  <div class="formula-pair">
+    <div class="formula">Sk = (Mean − Mode) / SD<small>Karl Pearson's First Coefficient</small></div>
+    <div class="formula">Sk = 3(Mean − Median) / SD<small>Karl Pearson's Second Coefficient (when mode unclear)</small></div>
+  </div>
+
+  <div class="formula-pair">
+    <div class="formula">Sk = (Q₁ + Q₃ − 2·Median) / (Q₃ − Q₁)<small>Bowley's Coefficient (−1 to +1)</small></div>
+    <div class="formula">Sk = m₃ / s³ = b₁ (or √β₁)<small>Moment-based coefficient (−2 to +2 typically)</small></div>
+  </div>
+
+  <!-- EASY -->
+  <div class="q-section-header easy">
+    <span class="q-difficulty-badge easy">Easy</span>
+    <p>Apply Karl Pearson's formula directly</p>
+  </div>
+
+  <div class="q-box easy">
+    <div class="q-head">
+      <div class="q-num easy">26</div>
+      <div class="q-text">For a frequency distribution, Mean = 40.5, Median = 36. Find the Mode using the empirical relation, then find Karl Pearson's coefficient of skewness if SD = 10. <span class="badge badge-green">(From Book — Exercise 3.48)</span></div>
+    </div>
+    <div class="q-hint">💡 Empirical relation: Mode = 3×Median − 2×Mean</div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">Mode = 3×36 − 2×40.5 = 108 − 81 = <strong>27</strong></div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">Sk (1st formula) = (Mean − Mode)/SD = (40.5 − 27)/10 = 13.5/10 = <strong>1.35</strong></div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-text">Sk (2nd formula) = 3(Mean − Median)/SD = 3(40.5−36)/10 = 3(4.5)/10 = 13.5/10 = <strong>1.35</strong> ✓ (Same!)</div></div>
+      <div class="result">Mode = 27 | Skewness = +1.35 (Positively skewed)</div>
+    </div>
+  </div>
+
+  <div class="q-box easy">
+    <div class="q-head">
+      <div class="q-num easy">27</div>
+      <div class="q-text">The mean wage of workers is Rs.100, median is Rs.90, and the SD is Rs.15. Calculate the coefficient of skewness.</div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">Sk = 3(Mean − Median)/SD = 3(100 − 90)/15 = 3×10/15 = 30/15 = <strong>+2.0</strong></div></div>
+      <div class="result">Coefficient of Skewness = +2.0 (strongly positively skewed)</div>
+    </div>
+  </div>
+
+  <!-- MEDIUM -->
+  <div class="q-section-header medium">
+    <span class="q-difficulty-badge medium">Medium</span>
+    <p>Bowley's coefficient and interpretation</p>
+  </div>
+
+  <div class="q-box medium">
+    <div class="q-head">
+      <div class="q-num medium">28</div>
+      <div class="q-text">For a distribution: Q₁ = 44.1, Median = 56, Q₃ = 68.45. Calculate Bowley's coefficient of skewness and comment on the skewness.</div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">Sk (Bowley) = (Q₁ + Q₃ − 2×Median)/(Q₃ − Q₁)</div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">= (44.1 + 68.45 − 2×56)/(68.45 − 44.1) = (112.55 − 112)/(24.35) = 0.55/24.35 = <strong>+0.023</strong></div></div>
+      <div class="result">Sk = +0.023 — very close to zero, meaning the distribution is nearly symmetric. There is a slight positive (right) skew.</div>
+    </div>
+  </div>
+
+  <!-- HARD -->
+  <div class="q-box hard">
+    <div class="q-head">
+      <div class="q-num hard">29</div>
+      <div class="q-text">For the weight frequency distribution (Q9 data), given mean = 122.5 g, SD = 34.87 g, and m₃ = 23120 g³. Find: (a) Pearson's 2nd skewness coefficient assuming median ≈ 119.3 g, and (b) Moment-based skewness coefficient. Interpret the results. <span class="badge badge-red">(Hard — multi-formula)</span></div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">(a) Sk = 3(Mean − Median)/SD = 3(122.5 − 119.3)/34.87 = 3(3.2)/34.87 = 9.6/34.87 = <strong>+0.275</strong></div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">(b) Moment-based: Sk = m₃/s³ = 23120/(34.87)³ = 23120/42345.5 = <strong>+0.546</strong></div></div>
+      <div class="result">Both coefficients are positive → the distribution is positively skewed (tail extends to the right). Mean &gt; Median confirms this.</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 13 — KURTOSIS -->
+<div class="section" id="s13">
+  <p class="section-label">Section 4.9</p>
+  <h2>Kurtosis</h2>
+  <div class="section-rule"></div>
+
+  <div class="teacher">
+    <div class="teacher-label">🎓 What is Kurtosis?</div>
+    <p>Skewness tells you about <em>asymmetry</em>. Kurtosis tells you about <em>peakedness</em> — how tall and sharp (or flat and wide) the peak of the distribution is. The standard reference is the normal distribution (the bell curve), which has β₂ = 3.</p>
+  </div>
+
+  <div class="formula">β₂ = μ₄ / μ₂² (population) &nbsp;&nbsp; or &nbsp;&nbsp; b₂ = m₄ / m₂² (sample)<small>Measured by the fourth standardized moment. Normal distribution: β₂ = 3</small></div>
+
+  <div class="kurt-row">
+    <div class="kurt-box" style="border-top:3px solid var(--accent);">
+      <div class="kurt-label" style="color:var(--accent);">Mesokurtic</div>
+      <div class="kurt-val" style="color:var(--accent);">β₂ = 3</div>
+      <div class="kurt-desc">Normal distribution. The reference shape. Medium peak, medium tails.</div>
+    </div>
+    <div class="kurt-box" style="border-top:3px solid var(--red);">
+      <div class="kurt-label" style="color:var(--red);">Leptokurtic</div>
+      <div class="kurt-val" style="color:var(--red);">β₂ &gt; 3</div>
+      <div class="kurt-desc">Sharply peaked with heavy/wide tails. More extreme values than normal.</div>
+    </div>
+    <div class="kurt-box" style="border-top:3px solid var(--teal);">
+      <div class="kurt-label" style="color:var(--teal);">Platykurtic</div>
+      <div class="kurt-val" style="color:var(--teal);">β₂ &lt; 3</div>
+      <div class="kurt-desc">Flat-topped with narrow tails. Fewer extreme values than normal.</div>
+    </div>
+  </div>
+
+  <div class="teacher gold">
+    <div class="teacher-label">💡 Memory Trick</div>
+    <p>"LEPTO" means thin/narrow in Greek → Leptokurtic has a tall narrow PEAK (and wide tails to compensate).<br>
+    "PLATY" means flat/broad → Platykurtic has a flat broad top (and narrow tails).<br>
+    "MESO" means middle → Mesokurtic is the normal distribution — the standard.</p>
+  </div>
+
+  <!-- EASY -->
+  <div class="q-section-header easy">
+    <span class="q-difficulty-badge easy">Easy</span>
+    <p>Identify kurtosis type from β₂ value</p>
+  </div>
+
+  <div class="q-box easy">
+    <div class="q-head">
+      <div class="q-num easy">30</div>
+      <div class="q-text">Identify the type of kurtosis for each: (a) β₂ = 2.1 &nbsp; (b) β₂ = 3.0 &nbsp; (c) β₂ = 4.5 &nbsp; (d) β₂ = 3</div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">a</div><div class="step-text">β₂ = 2.1 &lt; 3 → <strong>Platykurtic</strong> (flat-topped)</div></div>
+      <div class="step"><div class="step-n">b</div><div class="step-text">β₂ = 3.0 = 3 → <strong>Mesokurtic</strong> (normal)</div></div>
+      <div class="step"><div class="step-n">c</div><div class="step-text">β₂ = 4.5 &gt; 3 → <strong>Leptokurtic</strong> (sharply peaked)</div></div>
+      <div class="step"><div class="step-n">d</div><div class="step-text">β₂ = 3 → <strong>Mesokurtic</strong> (exactly normal)</div></div>
+      <div class="result">a=Platykurtic | b=Mesokurtic | c=Leptokurtic | d=Mesokurtic</div>
+    </div>
+  </div>
+
+  <div class="q-box easy">
+    <div class="q-head">
+      <div class="q-num easy">31</div>
+      <div class="q-text">For the marks data (45,32,37,46,39,36,41,48,36), m₂ = 25.78 and m₄ = 1189.78. Calculate b₂ and determine the type of kurtosis.</div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">b₂ = m₄/m₂² = 1189.78/(25.78)² = 1189.78/664.6 = <strong>1.79</strong></div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">1.79 &lt; 3 → <strong>Platykurtic</strong></div></div>
+      <div class="result">b₂ = 1.79 — the distribution is Platykurtic (flatter than normal)</div>
+    </div>
+  </div>
+
+  <!-- MEDIUM -->
+  <div class="q-section-header medium">
+    <span class="q-difficulty-badge medium">Medium</span>
+    <p>Determine kurtosis from given moments</p>
+  </div>
+
+  <div class="q-box medium">
+    <div class="q-head">
+      <div class="q-num medium">32</div>
+      <div class="q-text">Two distributions have: Distribution 1 (σ²=9, μ₄=230) and Distribution 2 (σ²=16, μ₄=780). Which is leptokurtic, which is mesokurtic, and which is platykurtic? <span class="badge badge-gold">(From Book — Exercise 4.50 type)</span></div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">β₂ (Dist 1) = μ₄/σ⁴ = 230/(9)² = 230/81 = <strong>2.84</strong> → slightly less than 3 → Platykurtic</div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">β₂ (Dist 2) = 780/(16)² = 780/256 = <strong>3.05</strong> → slightly greater than 3 → Leptokurtic</div></div>
+      <div class="result">Distribution 1 (β₂=2.84): Platykurtic | Distribution 2 (β₂=3.05): Leptokurtic</div>
+    </div>
+  </div>
+
+  <!-- HARD -->
+  <div class="q-box hard">
+    <div class="q-head">
+      <div class="q-num hard">33</div>
+      <div class="q-text">A symmetrical distribution has m₄ = 243. What value of σ (standard deviation) would make the distribution mesokurtic? <span class="badge badge-red">(From Book — Exercise 4.49 type)</span></div>
+    </div>
+    <div class="q-hint">💡 Mesokurtic means β₂ = m₄/m₂² = 3. If m₄ = 243, find m₂, then σ = √m₂.</div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">For mesokurtic: β₂ = m₄/m₂² = 3</div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">3 = 243/m₂² → m₂² = 243/3 = 81 → m₂ = 9</div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-text">σ = √m₂ = √9 = <strong>3</strong></div></div>
+      <div class="result">For the distribution to be mesokurtic, the Standard Deviation must be σ = 3.</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 14 — EXTRA QUESTIONS -->
+<div class="section" id="s14">
+  <p class="section-label">Extra Practice</p>
+  <h2>Additional Questions — All Levels</h2>
+  <div class="section-rule"></div>
+
+  <div class="q-section-header easy">
+    <span class="q-difficulty-badge easy">Easy</span>
+    <p>Mixed short questions — test all key concepts</p>
+  </div>
+
+  <div class="q-box easy">
+    <div class="q-head">
+      <div class="q-num easy">34</div>
+      <div class="q-text">True or False? Explain: (a) The standard deviation for values 5,5,5,5,5,5 is 2. &nbsp; (b) Variance is independent of origin. &nbsp; (c) The coefficient of variation is an absolute measure of dispersion. &nbsp; (d) The quartile deviation is based on only two values in the series.</div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">a</div><div class="step-text"><strong>FALSE</strong> — All values are equal (5), so all deviations = 0, and SD = 0, not 2.</div></div>
+      <div class="step"><div class="step-n">b</div><div class="step-text"><strong>TRUE</strong> — Adding or subtracting a constant from all values shifts the mean but doesn't change the spread. Var(X+a) = Var(X).</div></div>
+      <div class="step"><div class="step-n">c</div><div class="step-text"><strong>FALSE</strong> — CV is a RELATIVE measure (it's a pure percentage, no units). That's the whole point of using it!</div></div>
+      <div class="step"><div class="step-n">d</div><div class="step-text"><strong>TRUE in a sense</strong> — QD is based on Q₁ and Q₃ (just two values). But they represent positions, not individual extreme observations. Replace "series" with "quartile values" for precision.</div></div>
+    </div>
+  </div>
+
+  <div class="q-box easy">
+    <div class="q-head">
+      <div class="q-num easy">35</div>
+      <div class="q-text">A dataset has Var(X) = 16. Find: (a) Var(X + 7) &nbsp; (b) Var(3X) &nbsp; (c) SD(X − 5) &nbsp; (d) Var(2X + 4)</div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">a</div><div class="step-text">Var(X+7) = Var(X) = <strong>16</strong> (adding constant doesn't change variance)</div></div>
+      <div class="step"><div class="step-n">b</div><div class="step-text">Var(3X) = 3² × Var(X) = 9 × 16 = <strong>144</strong></div></div>
+      <div class="step"><div class="step-n">c</div><div class="step-text">SD(X−5) = SD(X) = √16 = <strong>4</strong> (subtracting constant doesn't change SD)</div></div>
+      <div class="step"><div class="step-n">d</div><div class="step-text">Var(2X+4) = 2² × Var(X) = 4 × 16 = <strong>64</strong></div></div>
+    </div>
+  </div>
+
+  <div class="q-section-header medium">
+    <span class="q-difficulty-badge medium">Medium</span>
+    <p>Chapter review questions — put it all together</p>
+  </div>
+
+  <div class="q-box medium">
+    <div class="q-head">
+      <div class="q-num medium">36</div>
+      <div class="q-text">For a distribution: Mean = 50, Median = 52, Mode = 55, SD = 10. (a) Calculate Karl Pearson's 1st and 2nd coefficients of skewness. (b) In which direction is the distribution skewed? (c) What is the relationship between mean, median, mode here?</div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">Sk (1st) = (Mean − Mode)/SD = (50 − 55)/10 = <strong>−0.5</strong></div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">Sk (2nd) = 3(Mean − Median)/SD = 3(50 − 52)/10 = 3(−2)/10 = <strong>−0.6</strong></div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-text">Both negative → <strong>Negatively skewed</strong> (left tail longer). The order is: Mean &lt; Median &lt; Mode → 50 &lt; 52 &lt; 55 ✓</div></div>
+      <div class="result">Sk₁ = −0.5, Sk₂ = −0.6 → Negatively skewed distribution</div>
+    </div>
+  </div>
+
+  <div class="q-box medium">
+    <div class="q-head">
+      <div class="q-num medium">37</div>
+      <div class="q-text">The first four moments about the value 4 are: m'₁ = −1.5, m'₂ = 17, m'₃ = −30, m'₄ = 108. Calculate b₁ and b₂ and determine whether the distribution is leptokurtic or platykurtic. <span class="badge badge-gold">(From Book — Exercise 4.49 type)</span></div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">Convert to central moments:<br>
+        m₂ = 17 − (−1.5)² = 17 − 2.25 = <strong>14.75</strong><br>
+        m₃ = −30 − 3(17)(−1.5) + 2(−1.5)³ = −30 + 76.5 − 6.75 = <strong>39.75</strong><br>
+        m₄ = 108 − 4(−30)(−1.5) + 6(17)(−1.5)² − 3(−1.5)⁴ = 108 − 180 + 229.5 − 15.19 = <strong>142.31</strong>
+      </div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">b₁ = m₃²/m₂³ = (39.75)²/(14.75)³ = 1580.06/3208.84 = <strong>0.492</strong></div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-text">b₂ = m₄/m₂² = 142.31/(14.75)² = 142.31/217.56 = <strong>0.654</strong></div></div>
+      <div class="step"><div class="step-n">4</div><div class="step-text">b₂ = 0.654 &lt; 3 → <strong>Platykurtic</strong></div></div>
+      <div class="result">b₁ = 0.492 (positive skew) | b₂ = 0.654 (Platykurtic — flat-topped)</div>
+    </div>
+  </div>
+
+  <div class="q-section-header hard">
+    <span class="q-difficulty-badge hard">Hard</span>
+    <p>Comprehensive problems combining multiple concepts</p>
+  </div>
+
+  <div class="q-box hard">
+    <div class="q-head">
+      <div class="q-num hard">38</div>
+      <div class="q-text">Compare two investment options using CV. Option A (stock): 5 annual returns (%): 8, −3, 12, 15, 7. Option B (bond): 5 annual returns (%): 6, 5, 7, 5, 6. Recommend the less risky option. <span class="badge badge-red">(Application question)</span></div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text"><strong>Option A:</strong> n=5, ΣxA=39, x̄A=7.8%. ΣxA²=8²+(−3)²+12²+15²+7² = 64+9+144+225+49 = 491. sA² = 491/5 − (7.8)² = 98.2 − 60.84 = 37.36. sA = 6.11%. CV(A) = 6.11/7.8 × 100 = <strong>78.3%</strong></div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text"><strong>Option B:</strong> n=5, ΣxB=29, x̄B=5.8%. ΣxB²=36+25+49+25+36=171. sB² = 171/5 − (5.8)² = 34.2 − 33.64 = 0.56. sB = 0.748%. CV(B) = 0.748/5.8 × 100 = <strong>12.9%</strong></div></div>
+      <div class="result">CV(B) = 12.9% ≪ CV(A) = 78.3% → Option B (bonds) is FAR less risky (more consistent returns).</div>
+    </div>
+  </div>
+
+  <div class="q-box hard">
+    <div class="q-head">
+      <div class="q-num hard">39</div>
+      <div class="q-text">For a distribution: Σf = 125, Σfu = −46, Σfu² = 806, Σfu³ = −242, Σfu⁴ = 1962, where x = 10 + 5u. Calculate: (a) Mean, (b) Variance, (c) b₁ and b₂, (d) Comment on normality. <span class="badge badge-red">(From Book — Exercise 4.38 type)</span></div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text">a = 10, h = 5, n = 125. m'₁(u) = −46/125 = −0.368. m'₂(u) = 806/125 = 6.448. m'₃(u) = −242/125 = −1.936. m'₄(u) = 1962/125 = 15.696</div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text">Mean = a + h·m'₁ = 10 + 5(−0.368) = 10 − 1.84 = <strong>8.16</strong></div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-text">m₂(u) = 6.448 − (−0.368)² = 6.448 − 0.135 = 6.313. Variance = h²·m₂(u) = 25 × 6.313 = <strong>157.83</strong>. s = √157.83 = <strong>12.56</strong></div></div>
+      <div class="step"><div class="step-n">4</div><div class="step-text">m₃(u) = −1.936 − 3(6.448)(−0.368) + 2(−0.368)³ = −1.936+7.116−0.100 = 5.08. m₃(x) = 5³×5.08 = 635<br>
+        m₄(u) = 15.696 − 4(−1.936)(−0.368)+6(6.448)(0.135)−3(0.368)⁴ = 15.696−2.850+5.222−0.059 = 18.009. m₄(x) = 5⁴×18.009 = 11256
+      </div></div>
+      <div class="step"><div class="step-n">5</div><div class="step-text">b₁ = m₃(x)²/m₂(x)³ = 635²/(157.83)³ = 403225/3,932,360 = <strong>0.103</strong>. b₂ = m₄(x)/m₂(x)² = 11256/(157.83)² = 11256/24910 = <strong>0.452</strong></div></div>
+      <div class="result">Mean=8.16, Variance=157.83, b₁=0.103 (slight positive skew), b₂=0.452 (platykurtic — NOT normal, since b₂≠3)</div>
+    </div>
+  </div>
+
+  <div class="q-box hard">
+    <div class="q-head">
+      <div class="q-num hard">40</div>
+      <div class="q-text">Prices of commodities (Rs.): 8, 13, 18, 23, 30. Life in hours: 130, 150, 180, 250, 345. Using Coefficient of Variation, determine which has greater variation. Compute all values from scratch. <span class="badge badge-red">(From Book — Example 4.9)</span></div>
+    </div>
+    <div class="answer-toggle" onclick="toggleAnswer(this)">Show Answer &amp; Solution</div>
+    <div class="answer-content">
+      <div class="step"><div class="step-n">1</div><div class="step-text"><strong>Prices:</strong> n=5, Σx=92, x̄=18.4. Σx²=64+169+324+529+900=1986. s²=1986/5−(18.4)²=397.2−338.56=58.64. s=√58.64=7.66. CV=(7.66/18.4)×100=<strong>41.63%</strong></div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-text"><strong>Life in Hours:</strong> n=5, Σy=1055, ȳ=211. Σy²=16900+22500+32400+62500+119025=253325. s²=253325/5−(211)²=50665−44521=6144. s=78.38. CV=(78.38/211)×100=<strong>37.15%</strong></div></div>
+      <div class="result">CV(Prices)=41.63% &gt; CV(Life)=37.15% → Prices show greater relative variation. Life in hours is more consistent.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SUMMARY -->
+<div class="section">
+  <div class="summary-box">
+    <h3>Chapter 4 — Complete Summary for Exam</h3>
+    <ul>
+      <li>Dispersion measures the spread/variability of data around its average. Average alone is insufficient to describe data.</li>
+      <li>Absolute measures: Range, QD, MD, SD — in same units as data. Relative measures (coefficients) — dimensionless, for comparison.</li>
+      <li>Range R = x_max − x_min. Easy but ignores all middle values and is affected by outliers.</li>
+      <li>QD = (Q₃−Q₁)/2. Not affected by extremes. "Median ± QD" contains ~50% of data.</li>
+      <li>MD = Σ|x−x̄|/n (or Σ|x−median|/n). Uses absolute values to avoid cancellation. Minimum when from median.</li>
+      <li>Variance s² = Σ(x−x̄)²/n = Σx²/n − (x̄)². Standard Deviation s = √Var. Units match data.</li>
+      <li>Short method for SD: u=(x−a)/h, then s = h√[Σfu²/n − (Σfu/n)²]</li>
+      <li>Var(a) = 0 | Var(X+a) = Var(X) | Var(aX) = a²Var(X) | Var(X±Y) = Var(X)+Var(Y) for independent</li>
+      <li>CV = (s/x̄)×100%. Dimensionless. Smaller CV = more consistent. Used to compare variation across different units.</li>
+      <li>Z = (x−μ)/σ. Standardized variable: mean=0, variance=1. Used to compare across different scales.</li>
+      <li>Trimmed: remove values outside Q₁–Q₃. Winsorized: replace extreme values with Q₁ or Q₃. Both resist outliers.</li>
+      <li>m₁=0, m₂=variance, m₃ relates to skewness, m₄ relates to kurtosis. Raw→Central: m₂=m'₂−(m'₁)²</li>
+      <li>β₁ = m₃²/m₂³ (skewness). β₂ = m₄/m₂² (kurtosis). Normal: β₁=0, β₂=3.</li>
+      <li>Skewness: Positive → right tail (Mean&gt;Median&gt;Mode). Negative → left tail (Mode&gt;Median&gt;Mean). Zero → symmetric.</li>
+      <li>Pearson's Sk = (Mean−Mode)/SD = 3(Mean−Median)/SD. Bowley's Sk = (Q₁+Q₃−2·Median)/(Q₃−Q₁).</li>
+      <li>Kurtosis: β₂=3 Mesokurtic (normal) | β₂&gt;3 Leptokurtic (peaked, heavy tails) | β₂&lt;3 Platykurtic (flat, light tails).</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+
+<script>
+function toggleAnswer(btn) {
+  const content = btn.nextElementSibling;
+  const isOpen = content.classList.contains('visible');
+  content.classList.toggle('visible', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  btn.textContent = isOpen ? 'Show Answer & Solution' : 'Hide Answer';
+  if (!isOpen) btn.innerHTML = 'Hide Answer &nbsp;<span style="font-size:11px;opacity:0.7">▲</span>';
+  else btn.innerHTML = 'Show Answer &amp; Solution';
+}
+</script>
+
+</body>
+</html>
